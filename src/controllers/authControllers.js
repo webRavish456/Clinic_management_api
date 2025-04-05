@@ -50,3 +50,48 @@ export const postAdmin = async (req, res) => {
 
   } 
 };
+
+
+export const postForgot = async (req, res) => {
+
+  const ContentType = req.headers["content-type"];
+
+  if (ContentType && ContentType.includes("multipart/form-data")) {
+
+    upload.none()(req, res, async (err) => {
+      if (err) {
+        return res.status(500).json({ status: "error", msg: "Error handling form data" });
+      }
+
+      const { email, password ,confirmpassword} = req.body;
+
+      if (!email || !password || !confirmpassword) {
+        return res.status(400).json({ status: "error", message: "All Fields are required" });
+      }
+      if (password !== confirmpassword) {
+        return res.status(400).json({ status: "error", message: "Password do not match" });
+      }
+      try {
+        const existingAdmin = await AdminModel.findOne({ email });
+
+        if (!existingAdmin) {
+          return res.status(401).json({ status: "error", message: "Admin not found" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await AdminModel.updateOne(
+          { email },
+          { $set: { password: hashedPassword } }
+        );
+
+        res.status(200).json({ status: "success", message: "Password update Successfully!" });
+
+      } catch (error) {
+        console.log("Error during login:", error);
+        res.status(500).json({ status: "error", message: "Internal server error" });
+      }
+    });
+
+  } 
+};
+
