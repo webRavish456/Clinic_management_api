@@ -3,47 +3,45 @@ import mongoose from "mongoose";
 const allpatientsSchema = new mongoose.Schema(
    
     {
-        Name: { 
+        name: { 
           type: String, 
           required: true, 
-         
         },
-
-        Treatment: { 
+        treatment: { 
           type: String, 
           required: true 
         },
-        MobileNo: { 
+        mobileNo: { 
             type: String, 
-            unique: true,
-            required: true 
+            required: true,
+            unique: true 
           },
-          Email: { 
+          email: { 
             type: String,
-            unique : true, 
-            required: true 
+            required: true,
+            unique : true
           },
-          Gender: { 
+          gender: { 
             type: String, 
             required: true 
           },
-          Address: { 
+          address: { 
             type: String, 
             required: true 
           },
-          AdmissionDate: { 
+          admissionDate: { 
             type: String, 
             required: true 
           },
-          DoctorAssigned: { 
+          doctorAssigned: { 
             type: String, 
             required: true 
           },
-          BloodGroup: { 
+          bloodGroup: { 
             type: String, 
             required: true 
           },
-          MedicalHistoryAttachment: { 
+          medicalHistory: { 
             type: String, 
              
           },
