@@ -1,4 +1,3 @@
-
 import multer from "multer";
 import BranchModel from "../models/branchModel.js";
 
