@@ -18,9 +18,9 @@ export const postPatientsRecords = async (req, res) => {
   
     try {
   
-      const { SiNo, Treatment, MobileNo, Email, Gender, Address, AdmissionDate, DoctorAssigned, BloodGroup,} = req.body;
+      const { PatientID, FullName,  Gender, Address, AdmissionDate, DoctorAssigned, BloodGroup,} = req.body;
   
-      if (! Name || !Treatment ||!MobileNo ||!Email ||!Gender ||!Address ||!AdmissionDate ||!DoctorAssigned ||!BloodGroup) {
+      if (! PatientID || !FullName ||!Gender ||!Address ||!AdmissionDate ||!DoctorAssigned ||!BloodGroup) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
