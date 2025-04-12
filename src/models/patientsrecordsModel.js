@@ -1,30 +1,22 @@
 import mongoose from "mongoose";
 
-const allpatientsSchema = new mongoose.Schema(
+const patientsrecordsSchema = new mongoose.Schema(
    
     {
-        name: { 
+        patientID: { 
+          type: String, 
+          required: true, 
+        },
+        fullname: { 
           type: String, 
           required: true, 
         },
 
-        treatment: { 
+        gender: { 
           type: String, 
           required: true 
         },
-        mobileNo: { 
-            type: String, 
-            required: true 
-          },
-          email: { 
-            type: String, 
-            required: true 
-          },
-          gender: { 
-            type: String, 
-            required: true 
-          },
-          address: { 
+        treatment: { 
             type: String, 
             required: true 
           },
@@ -32,14 +24,11 @@ const allpatientsSchema = new mongoose.Schema(
             type: String, 
             required: true 
           },
-          doctorAssigned: { 
+          labReport: { 
             type: String, 
-            required: true 
+            
           },
-          medicalHistory: { 
-            type: String, 
-          },
-          bloodGroup: { 
+          nextfollowup: { 
             type: String, 
             required: true 
           },
@@ -54,6 +43,6 @@ const allpatientsSchema = new mongoose.Schema(
 
 );
 
-const AllPatientsModel = mongoose.model('AllPatients', allpatientsSchema);
+const PatientsRecordsModel = mongoose.model('PatientsRecords', patientsrecordsSchema);
 
-export default AllPatientsModel
+export default PatientsRecordsModel
