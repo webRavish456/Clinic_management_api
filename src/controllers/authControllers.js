@@ -1,10 +1,14 @@
 import bcrypt from "bcryptjs";
 import AdminModel from "../models/adminModel.js";
 import multer from "multer";
+import jwt from "jsonwebtoken";
+
 
 const storage = multer.memoryStorage();
 
 const upload = multer({ storage: storage });
+
+const secretKey = process.env.JWT_SECRET;
 
 export const postAdmin = async (req, res) => {
 
@@ -40,7 +44,16 @@ export const postAdmin = async (req, res) => {
           return res.status(401).json({ status: "error", message: "Invalid credentials" });
         }
 
-        res.status(200).json({ status: "success", message: "Login Successfully!" });
+        const access_token = jwt.sign(
+          { userId: existingAdmin._id, email: existingAdmin.email }, 
+          secretKey,
+          { expiresIn: "1d" } 
+        );
+
+        const expiresIn = 24 * 60 * 60 * 1000; 
+        const expiryDate = new Date(Date.now() + expiresIn).toISOString();
+
+        res.status(200).json({ status: "success", message: "Login Successfully!", access_token,  expiresAt: expiryDate, });
 
       } catch (error) {
         console.log("Error during login:", error);
