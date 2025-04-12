@@ -10,6 +10,8 @@ import { deleteBranch, getBranch, getBranchById, postBranch, updateBranch } from
 import { deleteAllDoctor, getAllDoctor,getAllDoctorById, postAllDoctor, updateAllDoctor } from '../controllers/alldoctorControllers.js';
 import { deleteShiftManagement, getShiftManagement,getShiftManagementById, postShiftManagement, updateShiftManagement } from '../controllers/shiftmanagementControllers.js';
 import verifyToken from "../middleware/auth.js"
+import uploadStaff from '../upload/staff.js';
+import { deleteStaff, getStaff, getStaffById, postStaff, updateStaff } from '../controllers/staffControllers.js';
 
 export const router = express.Router();
 
@@ -59,13 +61,20 @@ router.route('/expense/:id').get(verifyToken, getExpenseById)
 router.route('/expense/:id').patch(verifyToken, updateExpense)
 router.route('/expense/:id').delete(verifyToken, deleteExpense)
 
+/* staff */
+
+router.route('/staff').post(verifyToken, uploadStaff, postStaff);
+router.route('/staff').get(verifyToken, getStaff);
+router.route('/staff/:id').get(verifyToken, getStaffById);
+router.route('/staff/:id').patch(verifyToken, uploadStaff, updateStaff);
+router.route('/staff/:id').delete(verifyToken, deleteStaff);
 
 
 /* shiftmanagement */
 
 router.route('/shiftmanagement').post(verifyToken, postShiftManagement)
 router.route('/shiftmanagement').get(verifyToken, getShiftManagement)
-router.route('/shiftmanagement/:id').get(verifyToken,getShiftManagementById)
+router.route('/shiftmanagement/:id').get(verifyToken, getShiftManagementById)
 router.route('/shiftmanagement/:id').put(verifyToken, updateShiftManagement)
 router.route('/shiftmanagement/:id').delete(verifyToken, deleteShiftManagement)
 

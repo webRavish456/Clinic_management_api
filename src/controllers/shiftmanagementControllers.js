@@ -18,64 +18,20 @@ export const postShiftManagement = async (req, res) => {
   
     try {
   
-      const { name, department,specialization,shiftStartDate,shiftEndDate,workDays,shiftHours,shiftType,availabilityStatus} = req.body;
+      const { doctorName, department,specialization,shiftStartDate,shiftEndDate,workDays,shiftHours,shiftType} = req.body;
   
-      if (!name || !department||!specialization||!shiftStartDate||!shiftEndDate||!workDays||!shiftHours||!shiftType||!availabilityStatus) {
+      if (!doctorName || !department||!specialization||!shiftStartDate||!shiftEndDate||!workDays||!shiftHours||!shiftType) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
-   
-      const existingShiftManagement = await ShiftManagementModel.findOne({
-        $or: [{ name }, { department },{specialization},{shiftStartDate},{shiftEndDate},{workDays},{shiftHours},{shiftType},{availabilityStatus}]
-      });
+  
       
-      if (existingShiftManagement) {
-        if (existingShiftManagement.name === name) {
-          return res.status(400).json({ status: "error", message: "ShiftManagement Name already exists" });
-        }
-        if (existingShiftManagement.department === department) {
-          return res.status(400).json({ status: "error", message: "ShiftManagement Department already exists" });
-        }
-    
-    if (existingShiftManagement.specialization === specialization) {
-      return res.status(400).json({ status: "error", message: "ShiftManagement Specialization already exists" });
-    }
+      const newShiftManagement = await ShiftManagementModel.create({ doctorName, department,specialization,shiftStartDate,shiftEndDate,workDays,shiftHours,shiftType});
 
-if (existingShiftManagement.shiftStartDate === shiftStartDate) {
-  return res.status(400).json({ status: "error", message: "ShiftManagement ShiftStartDate already exists" });
-}
-
-if (existingShiftManagement.shiftEndDate === shiftEndDate) {
-  return res.status(400).json({ status: "error", message: "ShiftManagement ShiftEndDate already exists" });
-}
-
-if (existingShiftManagement.workDays === workDays) {
-  return res.status(400).json({ status: "error", message: "ShiftManagement WorkDays already exists" });
-}
-
-if (existingShiftManagement.shiftHours === shiftHours) {
-  return res.status(400).json({ status: "error", message: "ShiftManagement ShiftHours already exists" });
-}
-
-if (existingShiftManagement.shiftType === shiftType) {
-  return res.status(400).json({ status: "error", message: "ShiftManagement ShiftType already exists" });
-}
-
-if (existingShiftManagement.availabilityStatus === availabilityStatus) {
-  return res.status(400).json({ status: "error", message: "ShiftManagement AvailabilityStatus already exists" });
-}
-
-
-
-
-      }
-      
-      const newShiftManagement = await ShiftManagementModel.create({ name, department,specialization,shiftStartDate,shiftEndDate,workDays,shifttHours,shiftType,availabilityStatus});
-
-      res.status(200).json({ status: "success", message: "ShiftManagement created successfully!" });
+      res.status(200).json({ status: "success", message: "Shift Management created successfully!" });
   
     } catch (error) {
-      console.error("Error creating shiftmanagement:", error);
+      console.error("Error creating shift management:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
     }
@@ -90,7 +46,7 @@ if (existingShiftManagement.availabilityStatus === availabilityStatus) {
       const shiftmanagements = await ShiftManagementModel.find();
   
       if (shiftmanagements.length === 0) {
-        return res.status(404).json({ status: "error", message: "ShiftManagement not found" });
+        return res.status(404).json({ status: "error", message: "Shift Management not found" });
       }
   
       res.status(200).json({ status: "success", data: shiftmanagements });
@@ -108,12 +64,12 @@ export const getShiftManagementById = async (req, res) => {
       const shiftmanagement = await ShiftManagementModel.findById(id); 
   
       if (!shiftmanagement) {
-        return res.status(404).json({ status: "error", message: "ShiftManagement not found" });
+        return res.status(404).json({ status: "error", message: "Shift Management not found" });
       }
   
       res.status(200).json({ status: "success", data: shiftmanagement });
     } catch (error) {
-      console.error("Error fetching shiftmanagement:", error);
+      console.error("Error fetching shift management:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
   };
@@ -135,10 +91,10 @@ export const getShiftManagementById = async (req, res) => {
       const updatedShiftManagement =  await ShiftManagementModel.updateOne({ _id: id }, { $set: updateData });
   
       if (!updatedShiftManagement) {
-        return res.status(404).json({ status: "error", message: "ShiftManagement not found" });
+        return res.status(404).json({ status: "error", message: "Shift Management not found" });
       }
   
-      res.status(200).json({ status: "success", message: "ShiftManagement updated successfully"});
+      res.status(200).json({ status: "success", message: "Shift Management updated successfully"});
 
     } catch (error) {
       console.error("Error updating shiftmanagement:", error);
@@ -155,13 +111,13 @@ export const getShiftManagementById = async (req, res) => {
   
       const deletedShiftManagement = await ShiftManagementModel.deleteOne({ _id: id });
        
-      if (deletedShiftManagement.deletedCount === 0) {
-        return res.status(404).json({ status: "error", message: "ShiftManagement not found" });
+      if (!deletedShiftManagement) {
+        return res.status(404).json({ status: "error", message: "Shift Management not found" });
       }
   
-      res.status(200).json({ status: "success", message: "ShiftManagement deleted successfully" });
+      res.status(200).json({ status: "success", message: "Shift Management deleted successfully" });
     } catch (error) {
-      console.error("Error deleting shiftmanagement:", error);
+      console.error("Error deleting shift management:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
     

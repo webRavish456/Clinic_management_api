@@ -1,51 +1,39 @@
 import mongoose from "mongoose";
 
-const doctorSchema = new mongoose.Schema(
+const staffSchema = new mongoose.Schema(
   {
    
-     doctorName: {
+    staffName: {
       type: String,
       required: true,
     },
-
     gender: {
       type: String,
       required: true,
     },
-
     dob: {
       type: Date,
       required: true,
     },
-
     mobileNumber: {
       type: Number,
       required: true,
       unique:true
     },
-
     emailId: {
       type: String,
       required: true,
       unique:true
     },
-
     experience: {
       type: String,
       required: true,
     },
-
     qualification: {
       type: String,
       required: true,
     },
-
     address: {
-      type: String,
-      required: true,
-    },
-
-     hospitalName: {
       type: String,
       required: true,
     },
@@ -56,11 +44,15 @@ const doctorSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      designation: {
+        type: String,
+        required: true,
+      },
       department: {
         type: String,
         required: true,
-      },   
-       specialization: {
+      },
+      shift: {
         type: String,
         required: true,
       },
@@ -77,10 +69,6 @@ const doctorSchema = new mongoose.Schema(
     documents: {
 
       resumeCertificate: {
-        type: String,
-        required: true,
-      },
-      licenseCertificate: {
         type: String,
         required: true,
       },
@@ -138,6 +126,6 @@ const doctorSchema = new mongoose.Schema(
 
 );
 
-const DoctorModel = mongoose.model("Doctor", doctorSchema);
+const StaffModel = mongoose.model("Staff", staffSchema);
 
-export default DoctorModel;
+export default StaffModel;

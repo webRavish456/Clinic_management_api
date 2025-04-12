@@ -1,6 +1,7 @@
-import DoctorModel from "../models/alldoctorModel.js";
+import StaffModel from "../models/staffModel.js";
 
-export const postAllDoctor = async (req, res) => {
+
+export const postStaff = async (req, res) => {
 
   const ContentType = req.headers["content-type"];
      
@@ -8,12 +9,11 @@ export const postAllDoctor = async (req, res) => {
 
       try {
         const {
-          doctorName,
+          staffName,
           gender,
           dob,
           mobileNumber,
           emailId,
-          hospitalName,
           experience,
           qualification,
           address,
@@ -28,14 +28,13 @@ export const postAllDoctor = async (req, res) => {
 
     const documents = {
       resumeCertificate: req.imageUrls?.resumeCertificate || null,
-      licenseCertificate: req.imageUrls?.licenseCertificate|| null,
       highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate || null,
       panCard: req.imageUrls?.panCard || null,
       aadharCard: req.imageUrls?.aadharCard || null,
     };
 
         if (
-          !doctorName ||
+          !staffName ||
           !gender ||
           !dob ||
           !mobileNumber ||
@@ -43,10 +42,10 @@ export const postAllDoctor = async (req, res) => {
           !experience ||
           !qualification ||
           !address ||
-          !hospitalName ||
           !parsecompanyDetails.branchName ||
-          !parsecompanyDetails.specialization ||
+          !parsecompanyDetails.designation ||
           !parsecompanyDetails.salary ||
+          !parsecompanyDetails.shift ||
           !parsecompanyDetails.department ||
           !parsecompanyDetails.joiningDate ||
           !parsedBankDetails.accountHolderName ||
@@ -60,7 +59,7 @@ export const postAllDoctor = async (req, res) => {
         }
      
 
-      const existingData = await DoctorModel.findOne({
+      const existingData = await StaffModel.findOne({
         $or: [{ mobileNumber }, { emailId }]
       });
       
@@ -73,9 +72,8 @@ export const postAllDoctor = async (req, res) => {
         }
       }
 
-        const newDoctor = await DoctorModel.create({
-          doctorName,
-          hospitalName,
+        const newStaff = await StaffModel.create({
+          staffName,
           gender,
           dob,
           mobileNumber,
@@ -85,10 +83,11 @@ export const postAllDoctor = async (req, res) => {
           address,
          companyDetails: {
           branchName :parsecompanyDetails.branchName,
-          specialization:parsecompanyDetails.specialization,
+          designation:parsecompanyDetails.designation,
           department:parsecompanyDetails.department,
           salary:parsecompanyDetails.salary,
           joiningDate:parsecompanyDetails.joiningDate,
+          shift:parsecompanyDetails.shift,
        },
           documents,
           bankDetails: {
@@ -101,9 +100,9 @@ export const postAllDoctor = async (req, res) => {
           }
         });
 
-        res.status(200).json({ status: "success", message: "Doctor created successfully!" });
+        res.status(200).json({ status: "success", message: "Staff created successfully!" });
       } catch (error) {
-        console.error("Error creating doctor:", error);
+        console.error("Error creating staff:", error);
         res.status(500).json({ status: "error", message: "Internal server error" });
       }
  
@@ -111,43 +110,42 @@ export const postAllDoctor = async (req, res) => {
 };
 
 
-  export const getAllDoctor = async (req, res) => {
+  export const getStaff = async (req, res) => {
     try {
-      const doctor = await DoctorModel.find();
+      const staff = await StaffModel.find();
 
-      if (doctor.length === 0) {
-        return res.status(404).json({ status: "error", message: "Doctor Details not found" });
+      if (staff.length === 0) {
+        return res.status(404).json({ status: "error", message: "Staff Details not found" });
       }
 
-      res.status(200).json({ status: "success", data: doctor });
-
+      res.status(200).json({ status: "success", data: staff });
     } catch (error) {
-      console.error("Error fetching doctor data:", error);
+      console.error("Error fetching staff data:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
   };
 
 
-export const getAllDoctorById = async (req, res) => {
+export const getStaffById = async (req, res) => {
   try {
     const { id } = req.params; 
 
-    const doctor = await DoctorModel.findById(id); 
+    const staff = await StaffModel.findById(id); 
 
-    if (!doctor) {
-      return res.status(404).json({ status: "error", message: "Doctor Details not found" });
+    if (!staff) {
+      return res.status(404).json({ status: "error", message: "Staff Details not found" });
     }
 
-    res.status(200).json({ status: "success", data: doctor });
+    res.status(200).json({ status: "success", data: staff });
 
   } catch (error) {
-    console.error("Error fetching doctor data:", error);
+    console.error("Error fetching staff data:", error);
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
 
 
- export const updateAllDoctor = async (req, res) => {
+ export const updateStaff = async (req, res) => {
 
     const ContentType = req.headers["content-type"];
 
@@ -158,8 +156,7 @@ export const getAllDoctorById = async (req, res) => {
         const { id } = req.params;
         
         const {
-          doctorName,
-          hospitalName,
+         staffName,
           gender,
           dob,
           mobileNumber,
@@ -178,22 +175,20 @@ export const getAllDoctorById = async (req, res) => {
    const parsecompanyDetails = JSON.parse(companyDetails)
 
 
-    if (req.imageUrls?.resumeCertificate || req.imageUrls?.highestQualificationCertificate || req.imageUrls?.panCard ||req.imageUrls?.aadharCard || req.imageUrls?.licenseCertificate) {
+    if (req.imageUrls?.resumeCertificate || req.imageUrls?.highestQualificationCertificate || req.imageUrls?.panCard ||req.imageUrls?.aadharCard) {
       documents.resumeCertificate = req.imageUrls.resumeCertificate;
       documents.highestQualificationCertificate = req.imageUrls.highestQualificationCertificate;
       documents.panCard = req.imageUrls.panCard;
       documents.aadharCard = req.imageUrls.aadharCard;
-      documents.licenseCertificate = req.imageUrls.licenseCertificate;
     }  
 
     
-    const updateDoctor = await DoctorModel.updateOne(
+    const updateStaff = await StaffModel.updateOne(
       { _id: id },
       {
         $set: {
-          doctorName,
+          staffName,
           gender,
-          hospitalName,
           dob,
           mobileNumber,
           emailId,
@@ -202,10 +197,11 @@ export const getAllDoctorById = async (req, res) => {
           address,
           companyDetails: {
             branchName :parsecompanyDetails.branchName,
-            specialization:parsecompanyDetails.specialization,
+            designation:parsecompanyDetails.designation,
             department:parsecompanyDetails.department,
             salary:parsecompanyDetails.salary,
             joiningDate:parsecompanyDetails.joiningDate,
+            staff:parsecompanyDetails.shift,
           },
           documents,
           bankDetails: {
@@ -220,14 +216,14 @@ export const getAllDoctorById = async (req, res) => {
       }
     );
 
-    if (!updateDoctor) {
-      return res.status(404).json({ status: "error", message: "Doctor Details not found" });
+    if (!updateStaff) {
+      return res.status(404).json({ status: "error", message: "Staff Details not found" });
     }
     
-    res.status(200).json({ status: "success", message: "Doctor Details updated successfully"});
+    res.status(200).json({ status: "success", message: "Staff Details updated successfully"});
 
   } catch (error) {
-    console.error("Error updating doctor:", error);
+    console.error("Error updating staff:", error);
     res.status(500).json({ status: "error", message: "Internal server error" });
    }
 
@@ -235,23 +231,23 @@ export const getAllDoctorById = async (req, res) => {
 };
 
 
-export const deleteAllDoctor = async (req, res) => {
+export const deleteStaff = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deletedDoctor = await DoctorModel.deleteOne({ _id: id });
+    const deletedStaff = await StaffModel.deleteOne({ _id: id });
      
-    if (deletedDoctor.deletedCount === 0) {
-      return res.status(404).json({ status: "error", message: "Doctor Details are not found" });
+    if (deletedStaff.deletedCount === 0) {
+      return res.status(404).json({ status: "error", message: "Staff Details are not found" });
     }
 
-    res.status(200).json({ status: "success", message: "Doctor Details deleted successfully" });
+    res.status(200).json({ status: "success", message: "Staff Details deleted successfully" });
 
   } 
 
   catch (error) {
 
-    console.error("Error deleting doctor:", error);
+    console.error("Error deleting staff:", error);
     res.status(500).json({ status: "error", message: "Internal server error" });
 
   }

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const shiftmanagementsSchema = new mongoose.Schema(
    
     {
-        name: { 
+        doctorName: { 
           type: String, 
           required: true, 
         },
@@ -14,33 +14,28 @@ const shiftmanagementsSchema = new mongoose.Schema(
         specialization: { 
             type: String, 
             required: true,
-            unique: true 
           },
           shiftStartDate: { 
-            type: String,
+            type: Date,
             required: true,
-            unique : true
           },
           shiftEndDate: { 
-            type: String, 
+            type: Date, 
             required: true 
           },
           workDays: { 
-            type: String, 
+            type: Number, 
             required: true 
           },
           shiftHours: { 
-            type: String, 
+            type: Number, 
             required: true 
           },
           shiftType: { 
             type: String, 
             required: true 
           },
-          availabilityStatus: { 
-            type: String, 
-            required: true 
-          },
+       
           
     },
 
