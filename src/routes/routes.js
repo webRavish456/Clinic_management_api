@@ -5,6 +5,7 @@ import { deleteAllPatients, getAllPatients, getAllPatientsById, postAllPatients,
 import uploadPatient from '../upload/patient.js';
 import uploadPatientRecords from '../upload/patientsrecords.js';
 import { deletePatientsRecords, getPatientsRecords,  getPatientsRecordsById, postPatientsRecords, updatePatientsRecords } from '../controllers/patientsrecordsControllers.js';
+import verifyToken from '../middleware/auth.js';
 
 
 export const router = express.Router();
@@ -16,22 +17,16 @@ router.route('/forgot-password').post(postForgot);
 
 /* branch */
 
-router.route('/branch').post(postBranch)
-router.route('/branch').get(getBranch)
-router.route('/branch/:id').get(getBranchById)
-router.route('/branch/:id').patch(updateBranch)
-router.route('/branch/:id').delete(deleteBranch)
+router.route('/branch').post(verifyToken, postBranch)
+router.route('/branch').get(verifyToken, getBranch)
+router.route('/branch/:id').get(verifyToken, getBranchById)
+router.route('/branch/:id').patch(verifyToken, updateBranch)
+router.route('/branch/:id').delete(verifyToken, deleteBranch)
 
 
 /* patients */
-router.route('/allpatients').post(uploadPatient, postAllPatients)
-router.route('/allpatients').get(getAllPatients)
-router.route('/allpatients/:id').get(getAllPatientsById)
-router.route('/allpatients/:id').put(uploadPatient, updateAllPatients)
-router.route('/allpatients/:id').delete(deleteAllPatients)
-
-router.route('/patientsrecords').post(uploadPatientRecords, postPatientsRecords)
-router.route('/patientsrecords').get(getPatientsRecords)
-router.route('/patientsrecords/:id').get(getPatientsRecordsById)
-router.route('/patientsrecords/:id').put(uploadPatientRecords, updatePatientsRecords)
-router.route('/patientsrecords/:id').delete(deletePatientsRecords)
+router.route('/allpatients').post(verifyToken, uploadPatient, postAllPatients)
+router.route('/allpatients').get(verifyToken, getAllPatients)
+router.route('/allpatients/:id').get(verifyToken, getAllPatientsById)
+router.route('/allpatients/:id').patch(verifyToken, uploadPatient, updateAllPatients)
+router.route('/allpatients/:id').delete(verifyToken, deleteAllPatients)
