@@ -20,7 +20,7 @@ router.route('/login').post(postAdmin);
 
 /* department */
 
-router.route('/department').post(postDepartment)
+router.route('/department').post(verifyToken,postDepartment)
 router.route('/department').get(getDepartment)
 router.route('/department/:id').get(getDepartmentById)
 router.route('/department/:id').patch(updateDepartment)
@@ -55,22 +55,22 @@ router.route('/forgot-password').post(postForgot);
 /* branch */
 
 router.route('/branch').post(verifyToken, postBranch)
-router.route('/branch').get(verifyToken,getBranch)
-router.route('/branch/:id').get(verifyToken,verifyToken,getBranchById)
-router.route('/branch/:id').patch(verifyToken,updateBranch)
-router.route('/branch/:id').delete(verifyToken,deleteBranch)
+router.route('/branch').get(verifyToken, getBranch)
+router.route('/branch/:id').get(verifyToken, getBranchById)
+router.route('/branch/:id').patch(verifyToken, updateBranch)
+router.route('/branch/:id').delete(verifyToken, deleteBranch)
 
 
 /* patients */
-router.route('/alldoctor').post(verifyToken,postAllDoctor)
-router.route('/alldoctor').get(verifyToken,getAllDoctor)
-router.route('/alldoctor/:id').get(verifyToken,getAllDoctorById)
-router.route('/alldoctor/:id').put(verifyToken,updateAllDoctor)
-router.route('/alldoctor/:id').delete(verifyToken,deleteAllDoctor)
+router.route('/alldoctor').post(verifyToken, postAllDoctor)
+router.route('/alldoctor').get(verifyToken, getAllDoctor)
+router.route('/alldoctor/:id').get(verifyToken, getAllDoctorById)
+router.route('/alldoctor/:id').put(verifyToken, updateAllDoctor)
+router.route('/alldoctor/:id').delete(verifyToken, deleteAllDoctor)
 
 
-router.route('/shiftmanagement').post(verifyToken,postShiftManagement)
-router.route('/shiftmanagement').get(verifyToken,getShiftManagement)
-router.route('/shiftmanagement/:id').get(verifyToken,getShiftManagementById)
-router.route('/shiftmanagement/:id').put(verifyToken,updateShiftManagement)
-router.route('/shiftmanagement/:id').delete(verifyToken,deleteShiftManagement)
+router.route('/shiftmanagement').post(verifyToken, postShiftManagement)
+router.route('/shiftmanagement').get(verifyToken, getShiftManagement)
+router.route('/shiftmanagement/:id').get(verifyToken, getShiftManagementById)
+router.route('/shiftmanagement/:id').put(verifyToken, updateShiftManagement)
+router.route('/shiftmanagement/:id').delete(verifyToken, deleteShiftManagement)
