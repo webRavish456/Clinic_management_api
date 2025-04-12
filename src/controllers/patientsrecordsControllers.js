@@ -1,9 +1,5 @@
-import multer from "multer";
-import AllPatientsModel from "../models/allpatientsModel.js";
+import PatientsRecordsModel from "../models/patientsrecordsModel.js";
 
-const storage = multer.memoryStorage();
-
-const upload = multer({ storage: storage });
 
 export const postPatientsRecords = async (req, res) => {
 
@@ -11,96 +7,66 @@ export const postPatientsRecords = async (req, res) => {
   
     if (ContentType && ContentType.includes("multipart/form-data")) {
   
-      upload.none()(req, res, async (err) => {
-        if (err) {
-          return res.status(500).json({ status: "error", msg: "Error handling form data" });
-        }
-  
     try {
-  
-      const { PatientID, FullName,  Gender, Address, AdmissionDate, DoctorAssigned, BloodGroup,} = req.body;
-  
-      if (! PatientID || !FullName ||!Gender ||!Address ||!AdmissionDate ||!DoctorAssigned ||!BloodGroup) {
+      
+      const { patientID, fullname, gender, treatment,  admissionDate,  nextfollowup} = req.body;
+
+      if (! patientID || !fullname ||!gender ||!treatment  ||!admissionDate ||!nextfollowup) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
-  
-   
-      const existingAllPatients = await AllPatientsModel.findOne({
-        $or: [{Name }, { Treatment }, {MobileNo}, {Email}, {Gender}, {Address},{AdmissionDate}, {DoctorAssigned},{BloodGroup}, ]
-      });
-      
-      if (existingAllPatients) {
-        if (existingAllPatients.Name === Name) {
-          return res.status(400).json({ status: "error", message: " Name already exists" });
-        }
-        if (existingAllPatients.Treatment === Treatment) {
-          return res.status(400).json({ status: "error", message: "Treatment already exists" });
-        }
-        if (existingAllPatients.MobileNo === MobileNo) {
-            return res.status(400).json({ status: "error", message: "Mobile No already exists" });
-          }
-          if (existingAllPatients.Email === Email) {
-            return res.status(400).json({ status: "error", message: "Email already exists" });
-          }
-          if (existingAllPatients.Gender === Gender) {
-            return res.status(400).json({ status: "error", message: "Gender already exists" });
-          }
-          if (existingAllPatients.Address === Address) {
-            return res.status(400).json({ status: "error", message: "Address already exists" });
-          }
-          if (existingAllPatients.AdmissionDate === AdmissionDate) {
-            return res.status(400).json({ status: "error", message: "Addmission Date already exists" });
-          }
-          if (existingAllPatients.DoctorAssigned === DoctorAssigned) {
-            return res.status(400).json({ status: "error", message: "Doctor Assigned already exists" });
-          }
-          if (existingAllPatients.BloodGroup === BloodGroup) {
-            return res.status(400).json({ status: "error", message: "Blood Group already exists" });
-          }
-      }
-      
-      const newAllPatients = await AllPatientsModel.create({ Name, Treatment, MobileNo, Email, Gender, Address, AdmissionDate, DoctorAssigned, BloodGroup, });
+      const labreport = req.imageUrls?.image || null;
 
-      res.status(200).json({ status: "success", message: "All Patients created successfully!" });
+      // const existing = await PatientsRecordsModel.findOne({
+      //   $or: [{ email }, { mobileNo }]
+      // });
+      
+      // if (existing) {
+      //   if (existing.email === email) {
+      //     return res.status(400).json({ status: "error", message: "Email already exists" });
+      //   }
+      //   if (existing.mobileNo === mobileNo) {
+      //     return res.status(400).json({ status: "error", message: "Mobile No already exists" });
+      //   }
+      // }
+   
+      const newPatientsRecords = await PatientsRecordsModel.create({ patientID, fullname, gender, treatment, admissionDate, nextfollowup,  labreport });
+
+      res.status(200).json({ status: "success", message: " Patients Records created successfully!" });
   
     } catch (error) {
       console.error("Error creating allpatients:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
-    }
-    
-  )}
-  
-  };
+} };
 
 
-  export const getAllPatients = async (req, res) => {
+  export const getPatientsRecords = async (req, res) => {
     try {
-      const allpatients = await AllPatientsModel.find();
+      const patientsrecords = await PatientsRecordsModel.find();
   
-      if (allpatients.length === 0) {
-        return res.status(404).json({ status: "error", message: "All Patients not found" });
+      if (patientsrecords.length === 0) {
+        return res.status(404).json({ status: "error", message: " Patients records not found" });
       }
   
-      res.status(200).json({ status: "success", data: allpatients });
+      res.status(200).json({ status: "success", data: patientsrecords });
     } catch (error) {
-      console.error("Error fetching allpatients:", error);
+      console.error("Error fetching patientsrecords:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
   };
 
 
-export const getAllPatientsById = async (req, res) => {
+export const getPatientsRecordsById = async (req, res) => {
     try {
       const { id } = req.params; 
 
-      const allpatients = await AllPatientsModel.findById(id); 
+      const patientsrecords = await PatientsRecordsModel.findById(id); 
   
-      if (!allpatients) {
-        return res.status(404).json({ status: "error", message: "All Patients not found" });
+      if (!patientsrecords) {
+        return res.status(404).json({ status: "error", message: "Patients Records not found" });
       }
   
-      res.status(200).json({ status: "success", data: allpatients });
+      res.status(200).json({ status: "success", data: patientsrecords });
     } catch (error) {
       console.error("Error fetching allpatients:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
@@ -108,47 +74,48 @@ export const getAllPatientsById = async (req, res) => {
   };
 
 
-  export const updateAllPatients = async (req, res) => {
+  export const updatePatientsRecords = async (req, res) => {
 
     const ContentType = req.headers["content-type"];
   
     if (ContentType && ContentType.includes("multipart/form-data")) {
-  
-      upload.none()(req, res, async (err) => {
-        if (err) {
-          return res.status(500).json({ status: "error", msg: "Error handling form data" });
-        }
+   
     try {
       const { id } = req.params;
       const updateData = req.body; 
-      const updatedAllPatients =  await AllPatientsModel.updateOne({ _id: id }, { $set: updateData });
+      
+      if (req.imageUrls?.image) {
+        updateData.labreport = req.imageUrls.image;
+      }
+
+      const uploadPatientRecords =  await PatientsRecordsModel.updateOne({ _id: id }, { $set: updateData });
   
-      if (!updatedAllPatients) {
-        return res.status(404).json({ status: "error", message: "All Patients not found" });
+      if (!updatePatientsRecords) {
+        return res.status(404).json({ status: "error", message: "Patients Records not found" });
       }
   
-      res.status(200).json({ status: "success", message: "All Patients updated successfully"});
+      res.status(200).json({ status: "success", message: "All Patients Records updated successfully"});
 
     } catch (error) {
-      console.error("Error updating allpatients:", error);
+      console.error("Error updating patientsrecords:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
-})
+
     }
   };
 
   
-  export const deleteAllPatients = async (req, res) => {
+  export const deletePatientsRecords = async (req, res) => {
     try {
       const { id } = req.params;
   
-      const deletedAllPatients = await AllPatientsModel.deleteOne({ _id: id });
+      const deletePatientsRecords = await PatientsRecordsModel.deleteOne({ _id: id });
        
-      if (deletedAllPatients.deletedCount === 0) {
-        return res.status(404).json({ status: "error", message: "All Patients not found" });
+      if (deletePatientsRecords.deletedCount === 0) {
+        return res.status(404).json({ status: "error", message: "All Patients Records not found" });
       }
   
-      res.status(200).json({ status: "success", message: "All Patients deleted successfully" });
+      res.status(200).json({ status: "success", message: "All Patients  Records deleted successfully" });
     } catch (error) {
       console.error("Error deleting allpatients:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });

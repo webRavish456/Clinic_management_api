@@ -1,37 +1,41 @@
 import mongoose from "mongoose";
 
-const patientsrecordsSchema = new mongoose.Schema(
+const expenseSchema = new mongoose.Schema(
    
     {
-        patientID: { 
+        expenseCategory: { 
           type: String, 
           required: true, 
-        },
-        fullname: { 
-          type: String, 
-          required: true, 
+          unique: true, 
         },
 
-        gender: { 
+        payeeName: { 
           type: String, 
           required: true 
         },
-        treatment: { 
+
+          date: { 
             type: String, 
             required: true 
           },
-          admissionDate: { 
+  
+          time: { 
             type: String, 
             required: true 
           },
-          labReport: { 
-            type: String, 
-            
-          },
-          nextfollowup: { 
+  
+          amount: { 
             type: String, 
             required: true 
           },
+  
+          paymentMethod: { 
+            type: String, 
+            required: true 
+          },
+  
+          
+
         status: { 
             type: String, 
             default: "active"
@@ -43,6 +47,6 @@ const patientsrecordsSchema = new mongoose.Schema(
 
 );
 
-const PatientsRecordsModel = mongoose.model('PatientsRecords', patientsrecordsSchema);
+const ExpenseModel = mongoose.model('Expense', expenseSchema);
 
-export default PatientsRecordsModel
+export default ExpenseModel
