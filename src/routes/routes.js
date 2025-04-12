@@ -16,6 +16,7 @@ export const router = express.Router();
 /* auth API endpoints */
 
 router.route('/login').post(postAdmin);
+router.route('/forgot-password').post(postForgot);
 
 /* department */
 
@@ -49,13 +50,9 @@ router.route('/expense/:id').get(verifyToken, getExpenseById)
 router.route('/expense/:id').patch(verifyToken, updateExpense)
 router.route('/expense/:id').delete(verifyToken, deleteExpense)
 
-router.route('/forgot-password').post(postForgot);
-
-/* branch */
 
 
-
-/* patients */
+/* shiftmanagement */
 
 
 
@@ -66,8 +63,8 @@ router.route('/shiftmanagement/:id').put(verifyToken, updateShiftManagement)
 
 
 
+/* alldoctor */
 
-/* patients */
 router.route('/alldoctor').post(verifyToken, postAllDoctor)
 router.route('/alldoctor').get(verifyToken, getAllDoctor)
 router.route('/alldoctor/:id').get(verifyToken, getAllDoctorById)
