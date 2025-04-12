@@ -74,6 +74,7 @@ const storage = new CloudinaryStorage({
   
       if (Object.keys(imageUrls).length > 0) {
         req.imageUrls = imageUrls;
+        console.log(imageUrls.image);
       }
   
       next();
