@@ -6,11 +6,9 @@ import {deleteIncome,getIncome,getIncomeById,updateIncome,postIncome}from'../con
 import { deleteExpense,getExpense,getExpenseById,updateExpense,postExpense } from '../controllers/expenseControllers.js';
 import { postAdmin, postForgot } from '../controllers/authControllers.js';
 import { deleteBranch, getBranch, getBranchById, postBranch, updateBranch } from '../controllers/branchControllers.js';
-import { deleteAllPatients, getAllPatients, getAllPatientsById, postAllPatients, updateAllPatients } from '../controllers/allpatientsControllers.js';
-import uploadPatient from '../upload/patient.js';
-import uploadPatientRecords from '../upload/patientsrecords.js';
-import { deletePatientsRecords, getPatientsRecords,  getPatientsRecordsById, postPatientsRecords, updatePatientsRecords } from '../controllers/patientsrecordsControllers.js';
-import verifyToken from '../middleware/auth.js';
+
+import { deleteAllDoctor, getAllDoctor,getAllDoctorById, postAllDoctor, updateAllDoctor } from '../controllers/alldoctorControllers.js';
+import { deleteShiftManagement, getShiftManagement,getShiftManagementById, postShiftManagement, updateShiftManagement } from '../controllers/shiftmanagementControllers.js';
 
 
 export const router = express.Router();
@@ -55,16 +53,23 @@ router.route('/forgot-password').post(postForgot);
 
 /* branch */
 
-router.route('/branch').post(verifyToken, postBranch)
-router.route('/branch').get(verifyToken, getBranch)
-router.route('/branch/:id').get(verifyToken, getBranchById)
-router.route('/branch/:id').patch(verifyToken, updateBranch)
-router.route('/branch/:id').delete(verifyToken, deleteBranch)
+router.route('/branch').post(postBranch)
+router.route('/branch').get(getBranch)
+router.route('/branch/:id').get(getBranchById)
+router.route('/branch/:id').patch(updateBranch)
+router.route('/branch/:id').delete(deleteBranch)
 
 
 /* patients */
-router.route('/allpatients').post(verifyToken, uploadPatient, postAllPatients)
-router.route('/allpatients').get(verifyToken, getAllPatients)
-router.route('/allpatients/:id').get(verifyToken, getAllPatientsById)
-router.route('/allpatients/:id').patch(verifyToken, uploadPatient, updateAllPatients)
-router.route('/allpatients/:id').delete(verifyToken, deleteAllPatients)
+router.route('/alldoctor').post( postAllDoctor)
+router.route('/alldoctor').get(getAllDoctor)
+router.route('/alldoctor/:id').get(getAllDoctorById)
+router.route('/alldoctor/:id').put( updateAllDoctor)
+router.route('/alldoctor/:id').delete(deleteAllDoctor)
+
+
+router.route('/shiftmanagement').post( postShiftManagement)
+router.route('/shiftmanagement').get(getShiftManagement)
+router.route('/shiftmanagement/:id').get(getShiftManagementById)
+router.route('/shiftmanagement/:id').put( updateShiftManagement)
+router.route('/shiftmanagement/:id').delete(deleteShiftManagement)
