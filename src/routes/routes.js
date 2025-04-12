@@ -18,6 +18,15 @@ export const router = express.Router();
 router.route('/login').post(postAdmin);
 router.route('/forgot-password').post(postForgot);
 
+
+/* branch */
+
+router.route('/branch').post(verifyToken, postBranch);
+router.route('/branch').get(verifyToken, getBranch);
+router.route('/branch/:id').get(verifyToken, getBranchById);
+router.route('/branch/:id').put(verifyToken, updateBranch);
+router.route('/branch/:id').delete(verifyToken, deleteBranch);
+
 /* department */
 
 router.route('/department').post(verifyToken, postDepartment)
@@ -54,13 +63,11 @@ router.route('/expense/:id').delete(verifyToken, deleteExpense)
 
 /* shiftmanagement */
 
-
-
 router.route('/shiftmanagement').post(verifyToken, postShiftManagement)
 router.route('/shiftmanagement').get(verifyToken, getShiftManagement)
 router.route('/shiftmanagement/:id').get(verifyToken,getShiftManagementById)
 router.route('/shiftmanagement/:id').put(verifyToken, updateShiftManagement)
-
+router.route('/shiftmanagement/:id').delete(verifyToken, deleteShiftManagement)
 
 
 /* alldoctor */
