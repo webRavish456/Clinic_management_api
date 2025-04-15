@@ -30,7 +30,7 @@ const allpatientsSchema = new mongoose.Schema(
             required: true 
           },
           admissionDate: { 
-            type: String, 
+            type: Date, 
             required: true 
           },
           doctorAssigned: { 
