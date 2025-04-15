@@ -47,10 +47,10 @@ export const postAdmin = async (req, res) => {
         const access_token = jwt.sign(
           { userId: existingAdmin._id, email: existingAdmin.email }, 
           secretKey,
-          { expiresIn: "1d" } 
+          { expiresIn: "28d" } 
         );
 
-        const expiresIn = 24 * 60 * 60 * 1000; 
+        const expiresIn = 28 * 24 * 60 * 60 * 1000; 
         const expiryDate = new Date(Date.now() + expiresIn).toISOString();
 
         res.status(200).json({ status: "success", message: "Login Successfully!", access_token,  expiresAt: expiryDate, });
