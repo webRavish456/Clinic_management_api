@@ -12,6 +12,9 @@ import { deleteShiftManagement, getShiftManagement,getShiftManagementById, postS
 import verifyToken from "../middleware/auth.js"
 import uploadStaff from '../upload/staff.js';
 import { deleteStaff, getStaff, getStaffById, postStaff, updateStaff } from '../controllers/staffControllers.js';
+import { deleteAllPatients, getAllPatients, getAllPatientsById, postAllPatients, updateAllPatients } from '../controllers/allpatientsControllers.js';
+
+
 
 export const router = express.Router();
 
@@ -86,5 +89,11 @@ router.route('/alldoctor').get(verifyToken, getAllDoctor)
 router.route('/alldoctor/:id').get(verifyToken, getAllDoctorById)
 router.route('/alldoctor/:id').patch(verifyToken, updateAllDoctor)
 router.route('/alldoctor/:id').delete(verifyToken, deleteAllDoctor)
+
+router.route('/allpatients').post(verifyToken, postAllPatients)
+router.route('/allpatients').get(verifyToken, getAllPatients)
+router.route('/allpatients/:id').get(verifyToken, getAllPatientsById)
+router.route('/allpatients/:id').patch(verifyToken, updateAllPatients)
+router.route('/allpatients/:id').delete(verifyToken, deleteAllPatients)
 
 
