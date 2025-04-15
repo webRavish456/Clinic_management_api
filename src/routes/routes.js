@@ -13,6 +13,7 @@ import verifyToken from "../middleware/auth.js"
 import uploadStaff from '../upload/staff.js';
 import { deleteStaff, getStaff, getStaffById, postStaff, updateStaff } from '../controllers/staffControllers.js';
 import { deleteAllPatients, getAllPatients, getAllPatientsById, postAllPatients, updateAllPatients } from '../controllers/allpatientsControllers.js';
+import { getPatientsRecords, postPatientsRecords,getPatientsRecordsById, updatePatientsRecords, deletePatientsRecords, } from '../controllers/patientsrecordsControllers.js';
 
 
 
@@ -95,5 +96,12 @@ router.route('/allpatients').get(verifyToken, getAllPatients)
 router.route('/allpatients/:id').get(verifyToken, getAllPatientsById)
 router.route('/allpatients/:id').patch(verifyToken, updateAllPatients)
 router.route('/allpatients/:id').delete(verifyToken, deleteAllPatients)
+
+router.route('/patientrecords').post(verifyToken, postPatientsRecords)
+router.route('/patientsrecords').get(verifyToken, getPatientsRecords)
+router.route('/patientsrecords/:id').get(verifyToken, getPatientsRecordsById)
+router.route('/patientsrecords/:id').patch(verifyToken, updatePatientsRecords)
+router.route('/patientsrecords/:id').delete(verifyToken, deletePatientsRecords)
+
 
 
