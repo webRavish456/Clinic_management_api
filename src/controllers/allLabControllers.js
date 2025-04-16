@@ -2,6 +2,7 @@ import multer from "multer";
 import AllLabModel from "../models/AllLabModel.js";
 
 
+
 const storage = multer.memoryStorage();
 
 const upload = multer({ storage: storage });
