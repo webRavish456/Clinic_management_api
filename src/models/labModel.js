@@ -35,6 +35,6 @@ const alllabSchema = new mongoose.Schema(
 
 );
 
-const AllLabModel = mongoose.model('AllLab', alllabSchema);
+const AlllabModel = mongoose.model('AllLab', alllabSchema);
 
-export default AllLabModel
+export default AlllabModel

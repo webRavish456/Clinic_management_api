@@ -1,5 +1,7 @@
 import multer from "multer";
-import AllLabModel from "../models/AllLabModel.js";
+import AlllabModel from "../models/labModel.js";
+
+
 
 
 
@@ -27,7 +29,7 @@ export const postAllLab= async (req, res) => {
       }
   
       
-      const newAllLab = await AllLabModel.create({ labName,labType,assigneeStaff,shift });
+      const newAllLab = await AlllabModel.create({ labName,labType,assigneeStaff,shift });
 
       res.status(200).json({ status: "success", message: "AllLab created successfully!" });
   
