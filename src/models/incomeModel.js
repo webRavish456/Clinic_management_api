@@ -6,7 +6,7 @@ const incomeSchema = new mongoose.Schema(
         sourceName: { 
           type: String, 
           required: true, 
-          unique: true, 
+     
         },
 
         description: { 
@@ -16,17 +16,12 @@ const incomeSchema = new mongoose.Schema(
 
   
           date: { 
-            type: date, 
-            required: true 
-          },
-  
-          time: { 
-            type: String, 
+            type: Date, 
             required: true 
           },
   
           amount: { 
-            type: String, 
+            type: Number, 
             required: true 
           },
   
