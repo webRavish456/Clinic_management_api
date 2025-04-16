@@ -12,6 +12,8 @@ import { deleteShiftManagement, getShiftManagement,getShiftManagementById, postS
 import verifyToken from "../middleware/auth.js"
 import uploadStaff from '../upload/staff.js';
 import { deleteStaff, getStaff, getStaffById, postStaff, updateStaff } from '../controllers/staffControllers.js';
+import {deleteAllLab,getAllLab,getAllLabById,updateAllLab,postAllLab } from '../controllers/allLabControllers.js';
+import {deleteLabTest,getLabTest,getLabTestById,updateLabTest,postLabTest} from '../controllers/LabTestControllers.js';
 
 export const router = express.Router();
 
@@ -87,4 +89,18 @@ router.route('/alldoctor/:id').get(verifyToken, getAllDoctorById)
 router.route('/alldoctor/:id').patch(verifyToken, updateAllDoctor)
 router.route('/alldoctor/:id').delete(verifyToken, deleteAllDoctor)
 
+/* alllab */
 
+router.route('/alllab').post(verifyToken, postAllLab)
+router.route('/alllab').get(verifyToken, getAllLab)
+router.route('/alllab/:id').get(verifyToken, getAllLabById)
+router.route('/alllab/:id').patch(verifyToken, updateAllLab)
+router.route('/alllab/:id').delete(verifyToken, deleteAllLab)
+
+/* labtest */
+
+router.route('/labtest').post(verifyToken, postLabTest)
+router.route('/labtest').get(verifyToken, getLabTest)
+router.route('/labtest/:id').get(verifyToken, getLabTestById)
+router.route('/labtest/:id').patch(verifyToken, updateLabTest)
+router.route('/labtest/:id').delete(verifyToken, deleteLabTest)
