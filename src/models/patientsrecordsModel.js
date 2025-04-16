@@ -7,7 +7,7 @@ const patientsrecordsSchema = new mongoose.Schema(
           type: String, 
           required: true, 
         },
-        fullname: { 
+        patientname: { 
           type: String, 
           required: true, 
         },
@@ -24,7 +24,7 @@ const patientsrecordsSchema = new mongoose.Schema(
             type: String, 
             required: true 
           },
-          labReport: { 
+          labreport: { 
             type: String, 
             
           },
