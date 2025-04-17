@@ -16,18 +16,6 @@ export const postPatientsRecords = async (req, res) => {
       }
       const labreport = req.imageUrls?.image || null;
 
-      // const existing = await PatientsRecordsModel.findOne({
-      //   $or: [{ email }, { mobileNo }]
-      // });
-      
-      // if (existing) {
-      //   if (existing.email === email) {
-      //     return res.status(400).json({ status: "error", message: "Email already exists" });
-      //   }
-      //   if (existing.mobileNo === mobileNo) {
-      //     return res.status(400).json({ status: "error", message: "Mobile No already exists" });
-      //   }
-      // }
    
       const newPatientsRecords = await PatientsRecordsModel.create({ patientID, patientname, gender, treatment, admissionDate, nextfollowup,  labreport });
 
@@ -42,7 +30,7 @@ export const postPatientsRecords = async (req, res) => {
 
   export const getPatientsRecords = async (req, res) => {
     try {
-      const patientsrecords = await PatientsRecordsModel.find();
+      const patientsrecords = await PatientsRecordsModel.find().populate("patient");;
   
       if (patientsrecords.length === 0) {
         return res.status(404).json({ status: "error", message: " Patients records not found" });
@@ -60,7 +48,7 @@ export const getPatientsRecordsById = async (req, res) => {
     try {
       const { id } = req.params; 
 
-      const patientsrecords = await PatientsRecordsModel.findById(id); 
+      const patientsrecords = await PatientsRecordsModel.findById(id).populate("patient");; 
   
       if (!patientsrecords) {
         return res.status(404).json({ status: "error", message: "Patients Records not found" });
@@ -88,7 +76,7 @@ export const getPatientsRecordsById = async (req, res) => {
         updateData.labreport = req.imageUrls.image;
       }
 
-      const uploadPatientRecords =  await PatientsRecordsModel.updateOne({ _id: id }, { $set: updateData });
+      const uploadPatientRecords =  await PatientsRecordsModel.updateOne({ _id: id }, { $set: updateData }).populate("patient");
   
       if (!updatePatientsRecords) {
         return res.status(404).json({ status: "error", message: "Patients Records not found" });
