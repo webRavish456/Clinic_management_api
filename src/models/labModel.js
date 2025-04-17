@@ -1,33 +1,29 @@
 import mongoose from "mongoose";
 
-const expenseSchema = new mongoose.Schema(
+const alllabSchema = new mongoose.Schema(
    
     {
-        expenseCategory: { 
+        labName: { 
           type: String, 
-          required: true, 
+          required: true,  
         },
 
-        payeeName: { 
+        labType: { 
           type: String, 
           required: true 
         },
 
-          date: { 
-            type: Date, 
-            required: true 
-          },
-  
-          amount: { 
-            type: Number, 
-            required: true 
-          },
-  
-          paymentMethod: { 
+        assigneeStaff: { 
             type: String, 
             required: true 
           },
   
+          shift: { 
+            type: String, 
+            required: true 
+          },
+  
+
         status: { 
             type: String, 
             default: "active"
@@ -39,6 +35,6 @@ const expenseSchema = new mongoose.Schema(
 
 );
 
-const ExpenseModel = mongoose.model('Expense', expenseSchema);
+const AlllabModel = mongoose.model('AllLab', alllabSchema);
 
-export default ExpenseModel
+export default AlllabModel
