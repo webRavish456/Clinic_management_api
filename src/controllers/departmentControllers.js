@@ -19,10 +19,8 @@ export const postDepartment= async (req, res) => {
     try {
   
       const { departmentName, specialization, departmentHead,description} = req.body;
-
-      console.log(req.body)
   
-      if (! departmentName || !specialization|| !departmentHead || !description) {
+      if (! departmentName || !specialization || !description) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
