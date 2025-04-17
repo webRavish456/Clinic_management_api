@@ -4,15 +4,21 @@ const patientsrecordsSchema = new mongoose.Schema(
    
     {
 
-      patient: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "AllPatients",
-        required: true
-      },
-
         patientName: { 
           type: String, 
           required: true, 
+        },
+
+        patient: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "AllPatients",
+          required: true
+        },
+
+        mobileNo: { 
+          type: Number, 
+          required: true, 
+          unique:true,
         },
 
           labReport: { 
