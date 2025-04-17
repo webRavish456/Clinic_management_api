@@ -18,14 +18,14 @@ export const postAppointment= async (req, res) => {
   
     try {
   
-      const { patientName,doctorName,gender,date,time,mobile,email,visitType} = req.body;
+      const { patientName,doctorName,gender,date,mobile,email,visitType} = req.body;
   
-      if (! patientName || !doctorName|| ! gender|| ! date|| ! time|| ! mobile|| ! email|| ! visitType   )  {
+      if (! patientName || !doctorName|| ! gender|| ! date|| ! mobile|| ! email|| ! visitType   )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
       
-      const newAppointment = await AppointmentModel.create({ patientName,doctorName,gender,date,time,mobile,email,visitType });
+      const newAppointment = await AppointmentModel.create({ patientName,doctorName,gender,date,mobile,email,visitType });
 
       res.status(200).json({ status: "success", message: "Appointment created successfully!" });
   
