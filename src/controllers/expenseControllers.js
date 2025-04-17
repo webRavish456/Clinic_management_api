@@ -18,14 +18,14 @@ export const postExpense= async (req, res) => {
   
     try {
   
-      const { expenseCategory,payeeName,date,time,amount,paymentMethod} = req.body;
+      const { expenseCategory,payeeName,date,amount,paymentMethod} = req.body;
   
-      if (! expenseCategory || !payeeName|| ! date|| ! time|| ! amount|| !  paymentMethod  )  {
+      if (! expenseCategory || !payeeName|| ! date|| ! amount|| !  paymentMethod  )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
       
-      const newExpense = await  ExpenseModel.create({ expenseCategory,payeeName,date,time,amount,paymentMethod});
+      const newExpense = await  ExpenseModel.create({ expenseCategory,payeeName,date,amount,paymentMethod});
 
       res.status(200).json({ status: "success", message: " Expense created successfully!" });
   
