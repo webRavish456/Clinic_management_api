@@ -15,7 +15,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
     return {
-      folder: 'patientrecordsImage',
+      folder: 'patientrecordImage',
       resource_type: 'auto',
       allowedFormats: [
         'jpeg', 'jpg', 'png', 'gif', 'svg', 'webp', 'bmp', 'tiff', 'jfif',
@@ -30,7 +30,7 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 10 * 1024 * 1024 },
 }).fields([
-  { name: 'labreport', maxCount: 1 },  
+  { name: 'labReport', maxCount: 1 },  
 ]);
 
 const uploadPatientRecords = (req, res, next) => {
@@ -47,8 +47,8 @@ const uploadPatientRecords = (req, res, next) => {
 
     const imageUrls = {};
 
-    if (files && files['labreport'] && files['labreport'][0]) {
-      imageUrls.image = files['labreport'][0].path;
+    if (files && files['labReport'] && files['labReport'][0]) {
+      imageUrls.image = files['labReport'][0].path;
     }
 
     if (Object.keys(imageUrls).length > 0) {

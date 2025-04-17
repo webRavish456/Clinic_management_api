@@ -9,15 +9,15 @@ export const postPatientsRecords = async (req, res) => {
   
     try {
       
-      const { patientID, patientname, gender, treatment,  admissionDate,  nextfollowup} = req.body;
+      const { patientName, doctorNotes,  nextFollowUp} = req.body;
 
-      if (! patientID || !patientname ||!gender ||!treatment  ||!admissionDate ||!nextfollowup) {
+      if (! patientName || !doctorNotes || !nextFollowUp) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
-      const labreport = req.imageUrls?.image || null;
+      const labReport = req.imageUrls?.image || null;
 
    
-      const newPatientsRecords = await PatientsRecordsModel.create({ patientID, patientname, gender, treatment, admissionDate, nextfollowup,  labreport });
+      const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport });
 
       res.status(200).json({ status: "success", message: " Patients Records created successfully!" });
   
