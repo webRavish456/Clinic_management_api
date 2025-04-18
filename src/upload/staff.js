@@ -68,7 +68,7 @@ const uploadStaff = (req, res, next) => {
 
       return res.status(400).json({
         success: false,
-        message: "All fields are required.",
+        message: "All image fields are required.",
       });
     }
     
