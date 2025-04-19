@@ -17,7 +17,7 @@ const departmentSchema = new mongoose.Schema(
 
         departmentHead: { 
           type: String, 
-          required: true 
+  
         },
         description: { 
           type: String, 
@@ -26,7 +26,7 @@ const departmentSchema = new mongoose.Schema(
 
         status: { 
           type: String, 
-          default:"active"
+          default:"Active"
         },
 
     },

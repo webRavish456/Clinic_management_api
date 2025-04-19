@@ -9,13 +9,19 @@ const labtestSchema = new mongoose.Schema(
           required: true 
         },
 
+        patient: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "AllPatients",
+          required: true
+        },
+
         testName: { 
             type: String, 
             required: true 
           },
   
           sampleCollectedOn: { 
-            type: String, 
+            type: Date, 
             required: true 
           },
   

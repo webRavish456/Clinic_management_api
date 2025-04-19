@@ -18,6 +18,10 @@ export const postPatientsRecords = async (req, res) => {
       const labReport = req.imageUrls?.image || null;
 
       const patient= await AllPatientsModel.findOne({mobileNo})
+
+      if (patient.name !== patientName) {
+        return res.status(400).json({ status: "error", message: "Patient not found" });
+      }
    
       const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo });
 
