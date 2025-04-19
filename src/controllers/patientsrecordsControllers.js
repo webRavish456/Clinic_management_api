@@ -19,8 +19,8 @@ export const postPatientsRecords = async (req, res) => {
 
       const patient= await AllPatientsModel.findOne({mobileNo})
 
-      if (!patient) {
-        return res.status(404).json({ status: "error", message: "Patient not found" });
+      if (patient.name !== patientName) {
+        return res.status(400).json({ status: "error", message: "Patient not found" });
       }
    
       const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo });

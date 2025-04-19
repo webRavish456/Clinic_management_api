@@ -1,5 +1,6 @@
 import multer from "multer";
 import LabTestModel from "../models/LabTestModel.js";
+import AllPatientsModel from "../models/allpatientsModel.js";
 
 const storage = multer.memoryStorage();
 
@@ -18,14 +19,20 @@ export const postLabTest= async (req, res) => {
   
     try {
   
-      const { patientName,testName,sampleCollectedOn,result,doctorName,assignedLabTechnician} = req.body;
+      const { mobileNo, patientName, testName, sampleCollectedOn,result,doctorName,assignedLabTechnician} = req.body;
   
-      if ( ! patientName|| ! testName|| ! sampleCollectedOn|| ! result|| ! doctorName|| ! assignedLabTechnician  )  {
+      if ( ! patientName|| ! testName|| ! sampleCollectedOn|| ! result|| ! doctorName|| ! assignedLabTechnician || !mobileNo  )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
+      const patient= await AllPatientsModel.findOne({mobileNo})
+
+      if (patient.name !== patientName) {
+        return res.status(400).json({ status: "error", message: "Patient not found" });
+      }
+
       
-      const newLabTest = await LabTestModel.create({ patientName,testName,sampleCollectedOn,result,doctorName,assignedLabTechnician });
+      const newLabTest = await LabTestModel.create({ patientName, patient, testName,sampleCollectedOn,result,doctorName,assignedLabTechnician });
 
       res.status(200).json({ status: "success", message: "LabTest created successfully!" });
   
@@ -42,7 +49,8 @@ export const postLabTest= async (req, res) => {
 
   export const getLabTest = async (req, res) => {
     try {
-      const labtest = await LabTestModel.find();
+      const labtest = await LabTestModel.find().populate({  path: 'patient',
+        select: 'gender treatment'});
   
       if (labtest.length === 0) {
         return res.status(404).json({ status: "error", message: "LabTest not found" });
@@ -60,7 +68,8 @@ export const getLabTestById = async (req, res) => {
     try {
       const { id } = req.params; 
 
-      const labtest = await LabTestModel.findById(id); 
+      const labtest = await LabTestModel.findById(id).populate({  path: 'patient',
+        select: 'gender treatment'}); 
   
       if (!labtest ) {
         return res.status(404).json({ status: "error", message: "LabTest  not found" });
