@@ -82,7 +82,7 @@ export const getPatientsRecordsById = async (req, res) => {
       const updateData = req.body; 
       
       if (req.imageUrls?.image) {
-        updateData.labreport = req.imageUrls.image;
+        updateData.labReport = req.imageUrls.image;
       }
 
       const patient = await AllPatientsModel.findOne({ mobileNo: updateData.mobileNo });
