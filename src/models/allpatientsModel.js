@@ -9,11 +9,6 @@ const allpatientsSchema = new mongoose.Schema(
           required: true, 
         },
 
-        treatment: { 
-          type: String, 
-          required: true 
-        },
-
         mobileNo: { 
             type: String, 
             required: true,
