@@ -1,3 +1,5 @@
+import AllPatientsModel from "../models/allpatientsModel.js";
+import AppointmentModel from "../models/appointmentModel.js";
 import PatientsRecordsModel from "../models/patientsrecordsModel.js";
 
 
@@ -9,15 +11,26 @@ export const postPatientsRecords = async (req, res) => {
   
     try {
       
-      const {  patientname, doctornotes,  nextfollowup} = req.body;
+      const { mobileNo, patientName, doctorNotes, nextFollowUp} = req.body;
 
-      if (! patientname || !doctornotes || !nextfollowup) {
+      if (! patientName || !doctorNotes || !nextFollowUp || !mobileNo  || !req.imageUrls?.image) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
-      const labreport = req.imageUrls?.image || null;
+      const labReport = req.imageUrls?.image;
 
+      const patient= await AllPatientsModel.findOne({mobileNo})
+
+      if (patient.name !== patientName) {
+        return res.status(400).json({ status: "error", message: "Patient not found" });
+      }
+
+      const appointment= await AppointmentModel.findOne({mobileNo})
+
+      if (appointment.patientName !== patientName) {
+        return res.status(400).json({ status: "error", message: "Patient not found" });
+      }
    
-      const newPatientsRecords = await PatientsRecordsModel.create({  patientname, doctornotes,nextfollowup,  labreport });
+      const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo, doctorAssigned: appointment.doctorName });
 
       res.status(200).json({ status: "success", message: " Patients Records created successfully!" });
   
@@ -28,9 +41,11 @@ export const postPatientsRecords = async (req, res) => {
 } };
 
 
+
   export const getPatientsRecords = async (req, res) => {
     try {
-      const patientsrecords = await PatientsRecordsModel.find().populate("patient");;
+      const patientsrecords = await PatientsRecordsModel.find().populate({  path: 'patient',
+        select: 'admissionDate treatment status'});
   
       if (patientsrecords.length === 0) {
         return res.status(404).json({ status: "error", message: " Patients records not found" });
@@ -48,7 +63,8 @@ export const getPatientsRecordsById = async (req, res) => {
     try {
       const { id } = req.params; 
 
-      const patientsrecords = await PatientsRecordsModel.findById(id).populate("patient");; 
+      const patientsrecords = await PatientsRecordsModel.findById(id).populate({  path: 'patient',
+        select: 'admissionDate treatment status'});
   
       if (!patientsrecords) {
         return res.status(404).json({ status: "error", message: "Patients Records not found" });
@@ -73,10 +89,14 @@ export const getPatientsRecordsById = async (req, res) => {
       const updateData = req.body; 
       
       if (req.imageUrls?.image) {
-        updateData.labreport = req.imageUrls.image;
+        updateData.labReport = req.imageUrls.image;
       }
 
-      const uploadPatientRecords =  await PatientsRecordsModel.updateOne({ _id: id }, { $set: updateData }).populate("patient");
+      const patient = await AllPatientsModel.findOne({ mobileNo: updateData.mobileNo });
+
+      await AllPatientsModel.updateOne({ _id: patient._id }, { $set: { status: updateData.status } });
+
+      const uploadPatientRecords =  await PatientsRecordsModel.updateOne({ _id: id }, { $set: updateData });
   
       if (!updatePatientsRecords) {
         return res.status(404).json({ status: "error", message: "Patients Records not found" });

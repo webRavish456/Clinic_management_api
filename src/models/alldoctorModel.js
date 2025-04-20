@@ -45,25 +45,28 @@ const doctorSchema = new mongoose.Schema(
       required: true,
     },
 
-     hospitalName: {
-      type: String,
-      required: true,
-    },
-
     companyDetails: {
 
       branchName: {
         type: String,
         required: true,
       },
+
       department: {
         type: String,
         required: true,
-      },   
+      }, 
+
+      assignDepartmentHead: {
+        type: String,
+        required: true,
+      }, 
+
        specialization: {
         type: String,
         required: true,
       },
+      
       salary: {
         type: Number,
         required: true,

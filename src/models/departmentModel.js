@@ -11,13 +11,13 @@ const departmentSchema = new mongoose.Schema(
         },
 
         specialization: { 
-          type: String, 
+          type: [String], 
           required: true 
         },
 
         departmentHead: { 
           type: String, 
-          required: true 
+  
         },
         description: { 
           type: String, 
@@ -26,7 +26,7 @@ const departmentSchema = new mongoose.Schema(
        
         status: { 
           type: String, 
-          default:"active"
+          default:"Active"
         },
 
     },

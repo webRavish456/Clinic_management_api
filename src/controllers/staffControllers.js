@@ -26,13 +26,6 @@ export const postStaff = async (req, res) => {
 
    const parsecompanyDetails = JSON.parse(companyDetails)
 
-    const documents = {
-      resumeCertificate: req.imageUrls?.resumeCertificate || null,
-      highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate || null,
-      panCard: req.imageUrls?.panCard || null,
-      aadharCard: req.imageUrls?.aadharCard || null,
-    };
-
         if (
           !staffName ||
           !gender ||
@@ -53,7 +46,11 @@ export const postStaff = async (req, res) => {
           !parsedBankDetails.bankName ||
           !parsedBankDetails.ifscCode ||
           !parsedBankDetails.branch ||
-          !parsedBankDetails.branchLocation
+          !parsedBankDetails.branchLocation,
+          !req.imageUrls?.resumeCertificate ||
+          !req.imageUrls?.highestQualificationCertificate ||
+          !req.imageUrls?.panCard ||
+          !req.imageUrls?.aadharCard
         ) {
           return res.status(400).json({ status: "error", message: "All fields are required" });
         }
@@ -71,6 +68,13 @@ export const postStaff = async (req, res) => {
           return res.status(400).json({ status: "error", message: "Mobile Number already exists" });
         }
       }
+
+      const documents = {
+        resumeCertificate: req.imageUrls?.resumeCertificate,
+        highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate,
+        panCard: req.imageUrls?.panCard,
+        aadharCard: req.imageUrls?.aadharCard,
+      };
 
         const newStaff = await StaffModel.create({
           staffName,
@@ -166,7 +170,6 @@ export const getStaffById = async (req, res) => {
           address,
           companyDetails,
           bankDetails, 
-          documents
         } = req.body;
       
    
@@ -174,14 +177,14 @@ export const getStaffById = async (req, res) => {
 
    const parsecompanyDetails = JSON.parse(companyDetails)
 
-
-    if (req.imageUrls?.resumeCertificate || req.imageUrls?.highestQualificationCertificate || req.imageUrls?.panCard ||req.imageUrls?.aadharCard) {
-      documents.resumeCertificate = req.imageUrls.resumeCertificate;
-      documents.highestQualificationCertificate = req.imageUrls.highestQualificationCertificate;
-      documents.panCard = req.imageUrls.panCard;
-      documents.aadharCard = req.imageUrls.aadharCard;
-    }  
-
+   const staff = await StaffModel.findById(id);
+  
+   const documents = {
+     resumeCertificate: req.imageUrls?.resumeCertificate || staff.documents?.resumeCertificate || null,
+     highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate || staff.documents?.highestQualificationCertificate || null,
+     panCard: req.imageUrls?.panCard || staff.documents?.panCard || null,
+     aadharCard: req.imageUrls?.aadharCard || staff.documents?.aadharCard || null,
+   };
     
     const updateStaff = await StaffModel.updateOne(
       { _id: id },
