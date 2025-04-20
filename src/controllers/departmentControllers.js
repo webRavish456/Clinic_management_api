@@ -18,33 +18,12 @@ export const postDepartment= async (req, res) => {
   
     try {
   
-      const { departmentName, specialization, departmentHead,description} = req.body;
+      const { departmentName, specialization, departmentHead, description} = req.body;
   
       if (! departmentName || !specialization || !description) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
-   
-      // const existingDepartment = await DepartmentModel.findOne({
-      //   $or: [{ departmentName }, {specialization} ,{departmentHead},{ description } ]
-      // });
-      
-      // if (existingDepartment) {
-      //   if (existingDepartment.departmentName === departmentName) {
-      //     return res.status(400).json({ status: "error", message: "Department Name already exists" });
-      //   }
-      //   if (existingDepartment.specialization === specialization) {
-      //     return res.status(400).json({ status: "error", message: "Specialization already exists" });
-      //   }
-
-      //   if (existingDepartment.departmentHead === departmentHead) {
-      //     return res.status(400).json({ status: "error", message:" Department Head already exists" });
-      //   }
-      //   if (existingDepartment. description===description ) {
-      //     return res.status(400).json({ status: "error", message: "Description already exists" });
-      //   }
-
-      // }
       
       const newDepartment = await DepartmentModel.create({ departmentName,specialization,departmentHead,description });
 

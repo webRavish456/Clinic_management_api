@@ -1,4 +1,5 @@
 import DoctorModel from "../models/alldoctorModel.js";
+import DepartmentModel from "../models/departmentModel.js";
 
 export const postAllDoctor = async (req, res) => {
 
@@ -26,13 +27,7 @@ export const postAllDoctor = async (req, res) => {
 
    const parsecompanyDetails = JSON.parse(companyDetails)
 
-    const documents = {
-      resumeCertificate: req.imageUrls?.resumeCertificate || null,
-      licenseCertificate: req.imageUrls?.licenseCertificate|| null,
-      highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate || null,
-      panCard: req.imageUrls?.panCard || null,
-      aadharCard: req.imageUrls?.aadharCard || null,
-    };
+
 
         if (
           !doctorName ||
@@ -48,13 +43,19 @@ export const postAllDoctor = async (req, res) => {
           !parsecompanyDetails.specialization ||
           !parsecompanyDetails.salary ||
           !parsecompanyDetails.department ||
+          !parsecompanyDetails.assignDepartmentHead ||
           !parsecompanyDetails.joiningDate ||
           !parsedBankDetails.accountHolderName ||
           !parsedBankDetails.accountNumber ||
           !parsedBankDetails.bankName ||
           !parsedBankDetails.ifscCode ||
           !parsedBankDetails.branch ||
-          !parsedBankDetails.branchLocation
+          !parsedBankDetails.branchLocation ||
+          !req.imageUrls?.resumeCertificate ||
+          !req.imageUrls?.highestQualificationCertificate ||
+          !req.imageUrls?.panCard ||
+          !req.imageUrls?.aadharCard ||
+          !req.imageUrls?.licenseCertificate
         ) {
           return res.status(400).json({ status: "error", message: "All fields are required" });
         }
@@ -73,6 +74,31 @@ export const postAllDoctor = async (req, res) => {
         }
       }
 
+      const documents = {
+        resumeCertificate: req.imageUrls?.resumeCertificate,
+        licenseCertificate: req.imageUrls?.licenseCertificate,
+        highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate,
+        panCard: req.imageUrls?.panCard ,
+        aadharCard: req.imageUrls?.aadharCard ,
+      };
+
+      const departmentData = await DepartmentModel.findOne({ department: parsecompanyDetails.department });
+      
+      if (!departmentData.departmentHead) {
+     
+        if (parsecompanyDetails.departmentHead.toLowerCase()==="yes") {
+      
+          await DepartmentModel.updateOne(
+            { department: parsecompanyDetails.department },
+            { $set: { departmentHead: doctorName } }
+          );
+      
+        }
+      } else {
+        return res.status(400).json({ status: "error", message: "Department Head already assigned" });
+      }
+      
+
         const newDoctor = await DoctorModel.create({
           doctorName,
           hospitalName,
@@ -87,6 +113,7 @@ export const postAllDoctor = async (req, res) => {
           branchName :parsecompanyDetails.branchName,
           specialization:parsecompanyDetails.specialization,
           department:parsecompanyDetails.department,
+          assignDepartmentHead: parsecompanyDetails.assignDepartmentHead,
           salary:parsecompanyDetails.salary,
           joiningDate:parsecompanyDetails.joiningDate,
        },
@@ -169,7 +196,6 @@ export const getAllDoctorById = async (req, res) => {
           address,
           companyDetails,
           bankDetails, 
-          documents
         } = req.body;
       
    
@@ -177,16 +203,16 @@ export const getAllDoctorById = async (req, res) => {
 
    const parsecompanyDetails = JSON.parse(companyDetails)
 
+    const doctor = await DoctorModel.findById(id);
+  
+    const documents = {
+      resumeCertificate: req.imageUrls?.resumeCertificate || doctor.documents?.resumeCertificate || null,
+      highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate || doctor.documents?.highestQualificationCertificate || null,
+      panCard: req.imageUrls?.panCard || doctor.documents?.panCard || null,
+      aadharCard: req.imageUrls?.aadharCard || doctor.documents?.aadharCard || null,
+      licenseCertificate: req.imageUrls?.licenseCertificate || doctor.documents?.licenseCertificate || null
+    };
 
-    if (req.imageUrls?.resumeCertificate || req.imageUrls?.highestQualificationCertificate || req.imageUrls?.panCard ||req.imageUrls?.aadharCard || req.imageUrls?.licenseCertificate) {
-      documents.resumeCertificate = req.imageUrls.resumeCertificate;
-      documents.highestQualificationCertificate = req.imageUrls.highestQualificationCertificate;
-      documents.panCard = req.imageUrls.panCard;
-      documents.aadharCard = req.imageUrls.aadharCard;
-      documents.licenseCertificate = req.imageUrls.licenseCertificate;
-    }  
-
-    
     const updateDoctor = await DoctorModel.updateOne(
       { _id: id },
       {

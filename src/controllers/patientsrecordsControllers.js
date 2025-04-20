@@ -1,4 +1,5 @@
 import AllPatientsModel from "../models/allpatientsModel.js";
+import AppointmentModel from "../models/appointmentModel.js";
 import PatientsRecordsModel from "../models/patientsrecordsModel.js";
 
 
@@ -10,20 +11,26 @@ export const postPatientsRecords = async (req, res) => {
   
     try {
       
-      const { mobileNo, patientName, doctorNotes,  nextFollowUp} = req.body;
+      const { mobileNo, patientName, doctorNotes, nextFollowUp} = req.body;
 
-      if (! patientName || !doctorNotes || !nextFollowUp || !mobileNo) {
+      if (! patientName || !doctorNotes || !nextFollowUp || !mobileNo  || !req.imageUrls?.image) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
-      const labReport = req.imageUrls?.image || null;
+      const labReport = req.imageUrls?.image;
 
       const patient= await AllPatientsModel.findOne({mobileNo})
 
       if (patient.name !== patientName) {
         return res.status(400).json({ status: "error", message: "Patient not found" });
       }
+
+      const appointment= await AppointmentModel.findOne({mobileNo})
+
+      if (appointment.patientName !== patientName) {
+        return res.status(400).json({ status: "error", message: "Patient not found" });
+      }
    
-      const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo });
+      const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo, doctorAssigned: appointment.doctorName });
 
       res.status(200).json({ status: "success", message: " Patients Records created successfully!" });
   
@@ -81,7 +88,7 @@ export const getPatientsRecordsById = async (req, res) => {
       const updateData = req.body; 
       
       if (req.imageUrls?.image) {
-        updateData.labreport = req.imageUrls.image;
+        updateData.labReport = req.imageUrls.image;
       }
 
       const patient = await AllPatientsModel.findOne({ mobileNo: updateData.mobileNo });

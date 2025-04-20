@@ -15,6 +15,11 @@ const patientsrecordsSchema = new mongoose.Schema(
           required: true
         },
 
+        doctorAssigned: {
+          type: String, 
+          required: true,
+        },
+      
         mobileNo: { 
           type: Number, 
           required: true, 

@@ -11,11 +11,16 @@ const labtestSchema = new mongoose.Schema(
 
         patient: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "AllPatients",
+          ref: "PatientsRecords",
           required: true
         },
-
+     
         testName: { 
+            type: String, 
+            required: true 
+          },
+
+          labName: { 
             type: String, 
             required: true 
           },
@@ -25,25 +30,14 @@ const labtestSchema = new mongoose.Schema(
             required: true 
           },
   
-          result: { 
-            type: String, 
-            required: true 
-          },
-  
-          doctorName: { 
-            type: String, 
-            required: true 
-          },
-  
           assignedLabTechnician: { 
             type: String, 
             required: true 
           },
   
-
         status: { 
             type: String, 
-            default: "active"
+            default: "Scheduled"
           },
           
     },
