@@ -24,6 +24,14 @@ export const postDepartment= async (req, res) => {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
+      const existingdepartment = await DepartmentModel.findOne({departmentName});
+      
+      if(existingdepartment)
+      {
+        if (existingdepartment.departmentName === departmentName) {
+          return res.status(400).json({ status: "error", message: "Department Name already exists" });
+        }
+      }
       
       const newDepartment = await DepartmentModel.create({ departmentName,specialization,departmentHead,description });
 
