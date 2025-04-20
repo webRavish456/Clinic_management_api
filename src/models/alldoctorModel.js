@@ -45,11 +45,6 @@ const doctorSchema = new mongoose.Schema(
       required: true,
     },
 
-     hospitalName: {
-      type: String,
-      required: true,
-    },
-
     companyDetails: {
 
       branchName: {

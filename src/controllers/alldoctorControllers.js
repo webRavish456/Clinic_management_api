@@ -14,7 +14,6 @@ export const postAllDoctor = async (req, res) => {
           dob,
           mobileNumber,
           emailId,
-          hospitalName,
           experience,
           qualification,
           address,
@@ -38,7 +37,6 @@ export const postAllDoctor = async (req, res) => {
           !experience ||
           !qualification ||
           !address ||
-          !hospitalName ||
           !parsecompanyDetails.branchName ||
           !parsecompanyDetails.specialization ||
           !parsecompanyDetails.salary ||
@@ -101,7 +99,6 @@ export const postAllDoctor = async (req, res) => {
 
         const newDoctor = await DoctorModel.create({
           doctorName,
-          hospitalName,
           gender,
           dob,
           mobileNumber,
@@ -186,7 +183,6 @@ export const getAllDoctorById = async (req, res) => {
         
         const {
           doctorName,
-          hospitalName,
           gender,
           dob,
           mobileNumber,
@@ -219,7 +215,6 @@ export const getAllDoctorById = async (req, res) => {
         $set: {
           doctorName,
           gender,
-          hospitalName,
           dob,
           mobileNumber,
           emailId,
