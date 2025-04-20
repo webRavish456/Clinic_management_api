@@ -11,7 +11,7 @@ const departmentSchema = new mongoose.Schema(
         },
 
         specialization: { 
-          type: String, 
+          type: [String], 
           required: true 
         },
 
