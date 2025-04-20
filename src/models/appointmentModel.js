@@ -6,7 +6,7 @@ const appointmentSchema = new mongoose.Schema(
         patientName: { 
           type: String, 
           required: true, 
-          unique: true, 
+         
         },
 
         doctorName: { 
@@ -24,17 +24,19 @@ const appointmentSchema = new mongoose.Schema(
             required: true 
           },
   
-          time: { 
-            type: String, 
-            required: true 
-          },
-  
+
+         
           mobile: { 
             type: String, 
             required: true 
           },
   
           email: { 
+            type: String, 
+            required: true 
+          },
+  
+          appointmentStatus: { 
             type: String, 
             required: true 
           },
