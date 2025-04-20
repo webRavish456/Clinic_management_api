@@ -33,7 +33,7 @@ export const postDepartment= async (req, res) => {
         }
       }
       
-      const newDepartment = await DepartmentModel.create({ departmentName,specialization,departmentHead,description });
+      const newDepartment = await DepartmentModel.create({ departmentName,specialization,departmentHead,description});
 
       res.status(200).json({ status: "success", message: "Department created successfully!" });
   

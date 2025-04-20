@@ -30,7 +30,10 @@ const incomeSchema = new mongoose.Schema(
             required: true 
           },
          
-        
+          status: { 
+            type: String, 
+            default: "active"
+          },
     },
 
     { timestamps: true }, 
