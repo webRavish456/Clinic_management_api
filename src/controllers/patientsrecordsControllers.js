@@ -41,6 +41,7 @@ export const postPatientsRecords = async (req, res) => {
 } };
 
 
+
   export const getPatientsRecords = async (req, res) => {
     try {
       const patientsrecords = await PatientsRecordsModel.find().populate({  path: 'patient',
