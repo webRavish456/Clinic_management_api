@@ -6,14 +6,14 @@ const appointmentSchema = new mongoose.Schema(
         patientName: { 
           type: String, 
           required: true, 
-         
-        },
+          },
 
-      treatment: { 
-        type: String, 
-        required: true 
-      },
-        doctorName: { 
+        treatment: { 
+          type: String, 
+          required: true, 
+         },
+
+        doctorAssigned: { 
           type: String, 
           required: true 
         },
@@ -23,26 +23,17 @@ const appointmentSchema = new mongoose.Schema(
             required: true 
           },
   
-          date: { 
+          appointmentDate: { 
             type:Date, 
             required: true 
           },
-          department: { 
-            type: String, 
-            required: true 
-          }, 
-          specialization: { 
-            type: String, 
-            required: true 
-          },
 
-         
-          mobile: { 
+          mobileNo: { 
             type: String, 
             required: true 
           },
   
-          email: { 
+          emailId: { 
             type: String, 
             required: true 
           },
@@ -57,10 +48,9 @@ const appointmentSchema = new mongoose.Schema(
             required: true 
           },
   
-
         status: { 
             type: String, 
-            default: "active"
+            default: "Scheduled"
           },
           
     },

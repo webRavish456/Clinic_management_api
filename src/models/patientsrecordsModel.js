@@ -15,6 +15,11 @@ const patientsrecordsSchema = new mongoose.Schema(
           required: true
         },
 
+        treatment: {
+          type: String, 
+          required: true,
+        },
+        
         doctorAssigned: {
           type: String, 
           required: true,

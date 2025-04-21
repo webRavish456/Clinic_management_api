@@ -27,10 +27,10 @@ export const postPatientsRecords = async (req, res) => {
       const appointment= await AppointmentModel.findOne({mobileNo})
 
       if (appointment.patientName !== patientName) {
-        return res.status(400).json({ status: "error", message: "Patient not found" });
+        return res.status(400).json({ status: "error", message: "Please make an appointment first" });
       }
    
-      const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo, doctorAssigned: appointment.doctorName });
+      const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo, treatment:appointment.treatment, doctorAssigned: appointment.doctorName });
 
       res.status(200).json({ status: "success", message: " Patients Records created successfully!" });
   
@@ -45,7 +45,7 @@ export const postPatientsRecords = async (req, res) => {
   export const getPatientsRecords = async (req, res) => {
     try {
       const patientsrecords = await PatientsRecordsModel.find().populate({  path: 'patient',
-        select: 'admissionDate treatment status'});
+        select: 'admissionDate status'});
   
       if (patientsrecords.length === 0) {
         return res.status(404).json({ status: "error", message: " Patients records not found" });
@@ -64,7 +64,7 @@ export const getPatientsRecordsById = async (req, res) => {
       const { id } = req.params; 
 
       const patientsrecords = await PatientsRecordsModel.findById(id).populate({  path: 'patient',
-        select: 'admissionDate treatment status'});
+        select: 'admissionDate status'});
   
       if (!patientsrecords) {
         return res.status(404).json({ status: "error", message: "Patients Records not found" });
