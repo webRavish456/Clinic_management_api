@@ -18,15 +18,15 @@ export const postShiftManagement = async (req, res) => {
   
     try {
   
-      const { doctorName, department,specialization,shiftStartDate,shiftEndDate,workDays,shiftHours,shiftType} = req.body;
+      const { doctorName,shiftStartDate,shiftEndDate,workDays,shiftHours,shiftType,availabilityStatus} = req.body;
   
-      if (!doctorName || !department||!specialization||!shiftStartDate||!shiftEndDate||!workDays||!shiftHours||!shiftType) {
+      if (!doctorName ||!shiftStartDate||!shiftEndDate||!workDays||!shiftHours||!shiftType||!availabilityStatus) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
   
       
-      const newShiftManagement = await ShiftManagementModel.create({ doctorName, department,specialization,shiftStartDate,shiftEndDate,workDays,shiftHours,shiftType});
+      const newShiftManagement = await ShiftManagementModel.create({ doctorName,shiftStartDate,shiftEndDate,workDays,shiftHours,shiftType,availabilityStatus});
 
       res.status(200).json({ status: "success", message: "Shift Management created successfully!" });
   
