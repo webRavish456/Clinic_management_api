@@ -26,8 +26,6 @@ export const postAllDoctor = async (req, res) => {
 
    const parsecompanyDetails = JSON.parse(companyDetails)
 
-
-
         if (
           !doctorName ||
           !gender ||
@@ -82,9 +80,9 @@ export const postAllDoctor = async (req, res) => {
 
       const departmentData = await DepartmentModel.findOne({ department: parsecompanyDetails.department });
       
-      if (!departmentData.departmentHead) {
+      if (!departmentData) {
      
-        if (parsecompanyDetails.departmentHead.toLowerCase()==="yes") {
+        if (parsecompanyDetails.assignDepartmentHead.toLowerCase()==="yes") {
       
           await DepartmentModel.updateOne(
             { department: parsecompanyDetails.department },
