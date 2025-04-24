@@ -13,7 +13,12 @@ const expenseSchema = new mongoose.Schema(
           required: true 
         },
 
-          date: { 
+        transactionId: {
+          type: String,
+          unique: true,
+        },
+        
+          datePaid: { 
             type: Date, 
             required: true 
           },
@@ -28,9 +33,9 @@ const expenseSchema = new mongoose.Schema(
             required: true 
           },
   
-        status: { 
-            type: String, 
-            default: "active"
+          status: {
+            type: String,
+            required:true
           },
           
     },
