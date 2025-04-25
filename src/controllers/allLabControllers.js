@@ -1,5 +1,8 @@
 import multer from "multer";
-import AllLabModel from "../models/AllLabModel.js";
+import AlllabModel from "../models/labModel.js";
+
+
+
 
 
 const storage = multer.memoryStorage();
@@ -26,7 +29,7 @@ export const postAllLab= async (req, res) => {
       }
   
       
-      const newAllLab = await AllLabModel.create({ labName,labType,assigneeStaff,shift });
+      const newAllLab = await AlllabModel.create({ labName,labType,assigneeStaff,shift });
 
       res.status(200).json({ status: "success", message: "AllLab created successfully!" });
   
@@ -43,7 +46,7 @@ export const postAllLab= async (req, res) => {
 
   export const getAllLab = async (req, res) => {
     try {
-      const alllab = await AllLabModel.find();
+      const alllab = await AlllabModel.find();
   
       if (alllab.length === 0) {
         return res.status(404).json({ status: "error", message: "AllLab not found" });
@@ -88,7 +91,7 @@ export const getAllLabById = async (req, res) => {
     try {
       const { id } = req.params;
       const updateData = req.body; 
-      const updatedAllLab  =  await AllLabModel.updateOne({ _id: id }, { $set: updateData });
+      const updatedAllLab  =  await AlllabModel.updateOne({ _id: id }, { $set: updateData });
   
       if (!updatedAllLab ) {
         return res.status(404).json({ status: "error", message: "AllLab  not found" });
@@ -109,7 +112,7 @@ export const getAllLabById = async (req, res) => {
     try {
       const { id } = req.params;
   
-      const deleteAllLab  = await AllLabModel.deleteOne({ _id: id });
+      const deleteAllLab  = await AlllabModel.deleteOne({ _id: id });
        
       if (!deleteAllLab) {
         return res.status(404).json({ status: "error", message: "AllLab  not found" });

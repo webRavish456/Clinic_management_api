@@ -6,49 +6,52 @@ const appointmentSchema = new mongoose.Schema(
         patientName: { 
           type: String, 
           required: true, 
-          unique: true, 
-        },
+          },
 
-        doctorName: { 
+        treatment: { 
+          type: String, 
+          required: true, 
+         },
+
+         mobileNo: { 
           type: String, 
           required: true 
         },
 
+        emailId: { 
+          type: String, 
+          required: true 
+        },
         gender: { 
+          type: String, 
+          required: true 
+        },
+
+        doctorAssigned: { 
+          type: String, 
+          required: true 
+        },
+      appointmentDate: { 
+            type:Date, 
+            required: true 
+          },
+
+          appointmentStatus: { 
             type: String, 
             required: true 
           },
-  
-          date: { 
-            type: String, 
-            required: true 
-          },
-  
-          time: { 
-            type: String, 
-            required: true 
-          },
-  
-          mobile: { 
-            type: String, 
-            required: true 
-          },
-  
-          email: { 
-            type: String, 
-            required: true 
-          },
-  
+
           visitType: { 
             type: String, 
             required: true 
           },
   
-
         status: { 
             type: String, 
-            default: "active"
+            default: "Scheduled"
           },
+
+
           
     },
 

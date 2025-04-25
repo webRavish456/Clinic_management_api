@@ -9,12 +9,12 @@ export const postAllPatients = async (req, res) => {
   
     try {
       
-      const { name, treatment, mobileNo, email, gender, address, admissionDate, doctorAssigned, bloodGroup} = req.body;
+      const { name, mobileNo, email, gender, address, admissionDate, bloodGroup} = req.body;
 
-      if (! name || !treatment ||!mobileNo ||!email ||!gender ||!address ||!admissionDate ||!doctorAssigned ||!bloodGroup) {
+      if (! name ||!mobileNo ||!email ||!gender ||!address ||!admissionDate  ||!bloodGroup  || !req.imageUrls?.image) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
-      const medicalHistory = req.imageUrls?.image || null;
+      const medicalHistory = req.imageUrls?.image;
 
       const existing = await AllPatientsModel.findOne({
         $or: [{ email }, { mobileNo }]
@@ -29,7 +29,7 @@ export const postAllPatients = async (req, res) => {
         }
       }
    
-      const newAllPatients = await AllPatientsModel.create({ name, treatment, mobileNo, email, gender, address, admissionDate, doctorAssigned, bloodGroup, medicalHistory });
+      const newAllPatients = await AllPatientsModel.create({ name, mobileNo, email, gender, address, admissionDate, bloodGroup, medicalHistory });
 
       res.status(200).json({ status: "success", message: "All Patients created successfully!" });
   

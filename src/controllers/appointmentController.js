@@ -1,5 +1,6 @@
 import multer from "multer";
 import AppointmentModel from "../models/appointmentModel.js";
+import PatientsRecordsModel from "../models/patientsrecordsModel.js";
 
 const storage = multer.memoryStorage();
 
@@ -18,14 +19,13 @@ export const postAppointment= async (req, res) => {
   
     try {
   
-      const { patientName,doctorName,gender,date,time,mobile,email,visitType} = req.body;
+      const { patientName, doctorAssigned, treatment, gender, appointmentDate, mobileNo, emailId, appointmentStatus, visitType} = req.body;
   
-      if (! patientName || !doctorName|| ! gender|| ! date|| ! time|| ! mobile|| ! email|| ! visitType   )  {
+      if (! patientName || !doctorAssigned|| !treatment|| ! gender|| !appointmentDate || ! mobileNo|| ! emailId ||! appointmentStatus|| ! visitType   )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
-      
-      const newAppointment = await AppointmentModel.create({ patientName,doctorName,gender,date,time,mobile,email,visitType });
+      const newAppointment = await AppointmentModel.create({ patientName, doctorAssigned, gender,treatment, appointmentDate, mobileNo, emailId, appointmentStatus, visitType });
 
       res.status(200).json({ status: "success", message: "Appointment created successfully!" });
   
@@ -84,10 +84,16 @@ export const getAppointmentById = async (req, res) => {
         if (err) {
           return res.status(500).json({ status: "error", msg: "Error handling form data" });
         }
+        
     try {
       const { id } = req.params;
       const updateData = req.body; 
+     
       const updatedAppointment  =  await AppointmentModel.updateOne({ _id: id }, { $set: updateData });
+
+      const patient = await PatientsRecordsModel.findOne({ mobileNo: updateData.mobileNo });
+
+      await PatientsRecordsModel.updateOne({ _id: patient._id }, { $set: { treatment: updateData.treatment, doctorAssigned: updateData.doctorAssigned } });
   
       if (!updatedAppointment ) {
         return res.status(404).json({ status: "error", message: "Appointment  not found" });

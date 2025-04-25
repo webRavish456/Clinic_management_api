@@ -18,6 +18,7 @@ import { deleteAllPatients, getAllPatients, getAllPatientsById, postAllPatients,
 import { getPatientsRecords, postPatientsRecords,getPatientsRecordsById, updatePatientsRecords, deletePatientsRecords, } from '../controllers/patientsrecordsControllers.js';
 import uploadPatient from '../upload/patient.js';
 import uploadPatientRecords from '../upload/patientsrecords.js';
+import uploadDoctor from '../upload/doctor.js';
 
 
 
@@ -89,10 +90,10 @@ router.route('/shiftmanagement/:id').delete(verifyToken, deleteShiftManagement)
 
 /* alldoctor */
 
-router.route('/alldoctor').post(verifyToken, postAllDoctor)
+router.route('/alldoctor').post(verifyToken, uploadDoctor, postAllDoctor)
 router.route('/alldoctor').get(verifyToken, getAllDoctor)
 router.route('/alldoctor/:id').get(verifyToken, getAllDoctorById)
-router.route('/alldoctor/:id').patch(verifyToken, updateAllDoctor)
+router.route('/alldoctor/:id').patch(verifyToken, uploadDoctor, updateAllDoctor)
 router.route('/alldoctor/:id').delete(verifyToken, deleteAllDoctor)
 
 /* alllab */

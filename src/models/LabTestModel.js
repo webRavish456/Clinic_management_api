@@ -9,23 +9,24 @@ const labtestSchema = new mongoose.Schema(
           required: true 
         },
 
+        patient: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "PatientsRecords",
+          required: true
+        },
+     
         testName: { 
+            type: String, 
+            required: true 
+          },
+
+          labName: { 
             type: String, 
             required: true 
           },
   
           sampleCollectedOn: { 
-            type: String, 
-            required: true 
-          },
-  
-          result: { 
-            type: String, 
-            required: true 
-          },
-  
-          doctorName: { 
-            type: String, 
+            type: Date, 
             required: true 
           },
   
@@ -34,10 +35,9 @@ const labtestSchema = new mongoose.Schema(
             required: true 
           },
   
-
         status: { 
             type: String, 
-            default: "active"
+            default: "Scheduled"
           },
           
     },

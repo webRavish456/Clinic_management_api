@@ -18,14 +18,14 @@ export const postIncome= async (req, res) => {
   
     try {
   
-      const { sourceName,description,date,time,amount,paymentMethod} = req.body;
+      const { sourceName, transactionId, description, dateReceived, amount, paymentMethod, status} = req.body;
   
-      if (!sourceName || !description||  ! date|| ! time|| !amount || !paymentMethod )  {
+      if (!sourceName || !description|| !transactionId || !dateReceived || !amount || !paymentMethod || status )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
       
-      const newIncome = await IncomeModel.create({ sourceName,description,date,time,amount,paymentMethod });
+      const newIncome = await IncomeModel.create({ sourceName,description,dateReceived,amount,paymentMethod,transactionId, status});
 
       res.status(200).json({ status: "success", message: " Income created successfully!" });
   

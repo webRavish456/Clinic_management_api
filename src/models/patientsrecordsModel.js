@@ -3,39 +3,45 @@ import mongoose from "mongoose";
 const patientsrecordsSchema = new mongoose.Schema(
    
     {
-        patientID: { 
-          type: String, 
-          required: true, 
-        },
-        patientname: { 
+
+        patientName: { 
           type: String, 
           required: true, 
         },
 
-        gender: { 
-          type: String, 
-          required: true 
+        patient: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "AllPatients",
+          required: true
         },
-        treatment: { 
+
+        treatment: {
+          type: String, 
+          required: true,
+        },
+        
+        doctorAssigned: {
+          type: String, 
+          required: true,
+        },
+      
+        mobileNo: { 
+          type: Number, 
+          required: true, 
+          unique:true,
+        },
+
+          labReport: { 
             type: String, 
-            required: true 
           },
-          admissionDate: { 
-            type: String, 
-            required: true 
+
+          nextFollowUp: { 
+            type: Date, 
           },
-          labreport: { 
-            type: String, 
-            
-          },
-          nextfollowup: { 
-            type: String, 
-            required: true 
-          },
-        status: { 
-            type: String, 
-            default: "active"
-          },
+
+          doctorNotes:{
+            type: String,
+          }
           
     },
 

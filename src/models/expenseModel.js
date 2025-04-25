@@ -6,7 +6,6 @@ const expenseSchema = new mongoose.Schema(
         expenseCategory: { 
           type: String, 
           required: true, 
-          unique: true, 
         },
 
         payeeName: { 
@@ -14,18 +13,18 @@ const expenseSchema = new mongoose.Schema(
           required: true 
         },
 
-          date: { 
-            type: String, 
-            required: true 
-          },
-  
-          time: { 
-            type: String, 
+        transactionId: {
+          type: String,
+          unique: true,
+        },
+        
+          datePaid: { 
+            type: Date, 
             required: true 
           },
   
           amount: { 
-            type: String, 
+            type: Number, 
             required: true 
           },
   
@@ -34,11 +33,9 @@ const expenseSchema = new mongoose.Schema(
             required: true 
           },
   
-          
-
-        status: { 
-            type: String, 
-            default: "active"
+          status: {
+            type: String,
+            required:true
           },
           
     },
