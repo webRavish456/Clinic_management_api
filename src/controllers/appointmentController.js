@@ -88,6 +88,7 @@ export const getAppointmentById = async (req, res) => {
     try {
       const { id } = req.params;
       const updateData = req.body; 
+     
       const updatedAppointment  =  await AppointmentModel.updateOne({ _id: id }, { $set: updateData });
 
       const patient = await PatientsRecordsModel.findOne({ mobileNo: updateData.mobileNo });
