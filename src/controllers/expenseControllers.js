@@ -19,13 +19,22 @@ export const postExpense= async (req, res) => {
     try {
   
       const { expenseCategory, transactionId, payeeName, datePaid, amount, paymentMethod, status} = req.body;
+
+      console.log(req.body)
   
-      if (! expenseCategory || transactionId || !payeeName|| ! datePaid|| ! amount|| !  paymentMethod || !status )  {
+      if (! expenseCategory || !transactionId || !payeeName|| !datePaid|| !amount|| !paymentMethod || !status )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
-  
+    
+      const existingData = await ExpenseModel.findOne({transactionId});
       
-      const newExpense = await  ExpenseModel.create({ expenseCategory,payeeName,transactionId, datePaid, amount,paymentMethod, status});
+      if (existingData) {
+        if (existingData.transactionId === transactionId) {
+          return res.status(400).json({ status: "error", message: " Transaction already exists" });
+        }
+      }
+      
+      const newExpense = await  ExpenseModel.create({ expenseCategory,transactionId, payeeName, datePaid, amount,paymentMethod, status});
 
       res.status(200).json({ status: "success", message: " Expense created successfully!" });
   

@@ -119,7 +119,7 @@ export const getLabTestById = async (req, res) => {
   
       const deleteLabTest  = await LabTestModel.deleteOne({ _id: id });
        
-      if (!deleteAllLab) {
+      if (!deleteLabTest) {
         return res.status(404).json({ status: "error", message: "LabTest  not found" });
       }
   
