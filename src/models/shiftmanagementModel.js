@@ -7,9 +7,19 @@ const shiftmanagementsSchema = new mongoose.Schema(
           type: String, 
           required: true, 
         },
+        
         mobileNo:{
         type:Number,
         required: true,
+        },
+
+        specialization: {
+          type: String, 
+          required: true, 
+        },
+        department: {
+          type: String, 
+          required: true,
         },
           shiftStartDate: { 
             type: Date,
