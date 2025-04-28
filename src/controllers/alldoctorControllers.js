@@ -78,22 +78,25 @@ export const postAllDoctor = async (req, res) => {
       };
 
      const departmentData = await DepartmentModel.findOne({ departmentName: parsecompanyDetails.department });
-      
-      if (!departmentData) {
+
+      if (departmentData) {
+
+        if(departmentData.departmentHead)
+          {
+            return res.status(400).json({ status: "error", message: "Department Head already assigned" });
+          }
+        else {  
      
-        if (parsecompanyDetails.assignDepartmentHead.toLowerCase()==="yes") {
-      
-          await DepartmentModel.updateOne(
-            { department: parsecompanyDetails.department },
+          if (parsecompanyDetails.assignDepartmentHead.toLowerCase()==="yes") {
+
+            await DepartmentModel.updateOne(
+            { departmentName: parsecompanyDetails.department },
             { $set: { departmentHead: doctorName } }
-          );
-      
+           );
+         }
         }
-      } else {
-        return res.status(400).json({ status: "error", message: "Department Head already assigned" });
       }
       
-
         const newDoctor = await DoctorModel.create({
           doctorName,
           gender,
