@@ -20,7 +20,6 @@ export const postAllDoctor = async (req, res) => {
           companyDetails,
           bankDetails
         } = req.body;
-    
    
    const parsedBankDetails = JSON.parse(bankDetails);
 
@@ -56,16 +55,16 @@ export const postAllDoctor = async (req, res) => {
           return res.status(400).json({ status: "error", message: "All fields are required" });
         }
      
-
       const existingData = await DoctorModel.findOne({
         $or: [{ mobileNumber }, { emailId }]
       });
       
+
       if (existingData) {
         if (existingData.emailId === emailId) {
           return res.status(400).json({ status: "error", message: " Email Id already exists" });
         }
-        if (existingData.mobileNumber === mobileNumber) {
+        if (existingData.mobileNumber == mobileNumber) {
           return res.status(400).json({ status: "error", message: "Mobile Number already exists" });
         }
       }
@@ -78,7 +77,7 @@ export const postAllDoctor = async (req, res) => {
         aadharCard: req.imageUrls?.aadharCard ,
       };
 
-      const departmentData = await DepartmentModel.findOne({ department: parsecompanyDetails.department });
+     const departmentData = await DepartmentModel.findOne({ departmentName: parsecompanyDetails.department });
       
       if (!departmentData) {
      
