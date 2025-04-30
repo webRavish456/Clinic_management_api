@@ -3,7 +3,6 @@ import profileModel from "../models/profileModel.js";
 import AdminModel from "../models/adminModel.js";
 import jwt from "jsonwebtoken";
 
-/* ---------------------------create profile-----------------------------------*/
 
 export const postProfile = async (req, res) => {
      
@@ -55,7 +54,7 @@ export const postProfile = async (req, res) => {
   }
   };
 
-/*--------------------------------view profile---------------------------------------*/
+
   export const getProfile = async (req, res) => {
 
     try {
@@ -82,7 +81,6 @@ export const postProfile = async (req, res) => {
 
   };
 
-/*-----------------------------Edit Profile------------------------------------------------------*/
 
 export const updateProfile = async (req, res) => {
     

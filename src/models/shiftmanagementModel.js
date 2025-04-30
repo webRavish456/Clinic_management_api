@@ -30,7 +30,7 @@ const shiftmanagementsSchema = new mongoose.Schema(
             required: true 
           },
           workDays: { 
-            type: Number, 
+            type: String, 
             required: true 
           },
           shiftHours: { 

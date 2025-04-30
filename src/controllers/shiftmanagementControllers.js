@@ -22,7 +22,6 @@ export const postShiftManagement = async (req, res) => {
   
       const { doctorName,mobileNo,shiftStartDate,specialization, department, shiftEndDate,workDays,shiftHours,shiftType,availabilityStatus} = req.body;
   
-      console.log(req.body)
 
       if (!doctorName||!mobileNo ||!shiftStartDate||!shiftEndDate|| !specialization || !department || !workDays||!shiftHours||!shiftType||!availabilityStatus) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
