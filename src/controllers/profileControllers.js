@@ -3,7 +3,7 @@ import profileModel from "../models/profileModel.js";
 import AdminModel from "../models/adminModel.js";
 import jwt from "jsonwebtoken";
 
-
+/* ---------------------------create profile-----------------------------------*/
 
 export const postProfile = async (req, res) => {
      
@@ -37,9 +37,10 @@ export const postProfile = async (req, res) => {
           }
         }
 
-        const user = await AdminModel.create({email, password:hashedPassword});
-
+     
         const profile = await profileModel.create({name,email,mobileNo,address,dob,gender,password:hashedPassword, profilePhoto});
+
+        const user = await AdminModel.create({email, password:hashedPassword, userId:profile._id});
 
       res.status(200).json({ 
         status: "success", 
@@ -54,7 +55,7 @@ export const postProfile = async (req, res) => {
   }
   };
 
-
+/*--------------------------------view profile---------------------------------------*/
   export const getProfile = async (req, res) => {
 
     try {
@@ -81,6 +82,7 @@ export const postProfile = async (req, res) => {
 
   };
 
+/*-----------------------------Edit Profile------------------------------------------------------*/
 
 export const updateProfile = async (req, res) => {
     
@@ -90,15 +92,30 @@ export const updateProfile = async (req, res) => {
 
     try {
       const { id } = req.params;
-      const updateData = req.body; 
-
-      const token = req.headers.authorization?.split(" ")[1];
+      const updateData = req.body;
       
-      const updateUser = await AdminModel.updateOne({email: jwt.verify(token, process.env.JWT_SECRET).email}, { $set: {email:updateData.email, password:updateData.password} });
+      const currentAdmin = await AdminModel.findOne({ email: updateData.email });
+
+      if (updateData.password) {
+        updateData.password = await bcrypt.hash(updateData.password, 10);
+      }
+      
+        const updateUser = await AdminModel.updateOne(
+        { userId: id },
+        {
+          $set: {
+             email:updateData.email,
+             password:updateData.password
+          } 
+         
+        }
+      );
+    
 
       if (req.imageUrls?.image) {
         updateData.profilePhoto = req.imageUrls.image;
       }
+  
 
       const updatedProfile =  await profileModel.updateOne({ _id: id }, { $set: updateData });
   
