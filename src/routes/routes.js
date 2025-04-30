@@ -19,6 +19,8 @@ import { getPatientsRecords, postPatientsRecords,getPatientsRecordsById, updateP
 import uploadPatient from '../upload/patient.js';
 import uploadPatientRecords from '../upload/patientsrecords.js';
 import uploadDoctor from '../upload/doctor.js';
+import uploadProfile from '../upload/profile.js';
+import { getProfile, postProfile, updateProfile } from '../controllers/profileControllers.js';
 
 
 
@@ -124,3 +126,8 @@ router.route('/labtest').get(verifyToken, getLabTest)
 router.route('/labtest/:id').get(verifyToken, getLabTestById)
 router.route('/labtest/:id').patch(verifyToken, updateLabTest)
 router.route('/labtest/:id').delete(verifyToken, deleteLabTest)
+
+
+router.route('/profile').post(verifyToken, uploadProfile, postProfile);
+router.route('/profile/:id').get(verifyToken, getProfile);
+router.route('/profile/:id').patch(verifyToken, uploadProfile, updateProfile );
