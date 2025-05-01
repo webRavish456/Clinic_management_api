@@ -39,7 +39,6 @@ export const postStaff = async (req, res) => {
           !parsecompanyDetails.designation ||
           !parsecompanyDetails.salary ||
           !parsecompanyDetails.shift ||
-          !parsecompanyDetails.department ||
           !parsecompanyDetails.joiningDate ||
           !parsedBankDetails.accountHolderName ||
           !parsedBankDetails.accountNumber ||
@@ -88,7 +87,6 @@ export const postStaff = async (req, res) => {
          companyDetails: {
           branchName :parsecompanyDetails.branchName,
           designation:parsecompanyDetails.designation,
-          department:parsecompanyDetails.department,
           salary:parsecompanyDetails.salary,
           joiningDate:parsecompanyDetails.joiningDate,
           shift:parsecompanyDetails.shift,
@@ -201,7 +199,6 @@ export const getStaffById = async (req, res) => {
           companyDetails: {
             branchName :parsecompanyDetails.branchName,
             designation:parsecompanyDetails.designation,
-            department:parsecompanyDetails.department,
             salary:parsecompanyDetails.salary,
             joiningDate:parsecompanyDetails.joiningDate,
             staff:parsecompanyDetails.shift,
