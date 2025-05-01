@@ -22,7 +22,7 @@ export const postExpense= async (req, res) => {
 
       console.log(req.body)
   
-      if (! expenseType || !transactionId || !payeeName|| !datePaid|| !amount|| !paymentMethod || !status )  {
+      if (! expenseType  || !payeeName|| !datePaid|| !amount|| !paymentMethod || !status )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
     

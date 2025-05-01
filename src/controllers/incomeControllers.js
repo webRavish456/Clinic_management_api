@@ -20,7 +20,7 @@ export const postIncome= async (req, res) => {
   
       const { sourceName, transactionId, description, dateReceived, amount, paymentMethod, status} = req.body;
   
-      if (!sourceName || !description|| !transactionId || !dateReceived || !amount || !paymentMethod || !status )  {
+      if (!sourceName || !description || !dateReceived || !amount || !paymentMethod || !status )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
