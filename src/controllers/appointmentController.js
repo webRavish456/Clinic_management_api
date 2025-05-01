@@ -19,13 +19,13 @@ export const postAppointment= async (req, res) => {
   
     try {
   
-      const { patientName, doctorAssigned, treatment, gender, appointmentDate, mobileNo, emailId, appointmentStatus, visitType} = req.body;
+      const { patientName, doctorAssigned, treatment, gender, appointmentDate, department, specialization,  mobileNo, emailId, appointmentStatus, visitType} = req.body;
   
-      if (! patientName || !doctorAssigned|| !treatment|| ! gender|| !appointmentDate || ! mobileNo|| ! emailId ||! appointmentStatus|| ! visitType   )  {
+      if (! patientName || !doctorAssigned|| !treatment|| ! gender|| !appointmentDate || ! mobileNo|| !specialization || !department ||! emailId ||! appointmentStatus|| ! visitType   )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
-      const newAppointment = await AppointmentModel.create({ patientName, doctorAssigned, gender,treatment, appointmentDate, mobileNo, emailId, appointmentStatus, visitType });
+      const newAppointment = await AppointmentModel.create({ patientName, doctorAssigned, gender,treatment, appointmentDate, department, specialization, mobileNo, emailId, appointmentStatus, visitType });
 
       res.status(200).json({ status: "success", message: "Appointment created successfully!" });
   
@@ -91,10 +91,6 @@ export const getAppointmentById = async (req, res) => {
      
       const updatedAppointment  =  await AppointmentModel.updateOne({ _id: id }, { $set: updateData });
 
-      const patient = await PatientsRecordsModel.findOne({ mobileNo: updateData.mobileNo });
-
-      await PatientsRecordsModel.updateOne({ _id: patient._id }, { $set: { treatment: updateData.treatment, doctorAssigned: updateData.doctorAssigned } });
-  
       if (!updatedAppointment ) {
         return res.status(404).json({ status: "error", message: "Appointment  not found" });
       }

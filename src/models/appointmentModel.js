@@ -22,16 +22,26 @@ const appointmentSchema = new mongoose.Schema(
           type: String, 
           required: true 
         },
+
         gender: { 
           type: String, 
           required: true 
         },
 
+        department: {
+          type: String, 
+          required: true 
+        },
+
+        specialization: {
+          type: String, 
+          required: true 
+        },
         doctorAssigned: { 
           type: String, 
           required: true 
         },
-      appointmentDate: { 
+       appointmentDate: { 
             type:Date, 
             required: true 
           },
