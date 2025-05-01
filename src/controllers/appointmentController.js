@@ -43,12 +43,7 @@ export const postAppointment= async (req, res) => {
   export const getAppointment = async (req, res) => {
     try {
       const appointment = await AppointmentModel.find();
-  
-      if (appointment.length === 0) {
-        return res.status(404).json({ status: "error", message: "Appointment not found" });
-      }
-  
-      res.status(200).json({ status: "success", data: appointment});
+       res.status(200).json({ status: "success", data: appointment});
     } catch (error) {
       console.error("Error fetching appointment :", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
