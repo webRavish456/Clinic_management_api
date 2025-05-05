@@ -54,15 +54,7 @@ const appointmentSchema = new mongoose.Schema(
           visitType: { 
             type: String, 
             required: true 
-          },
-  
-        status: { 
-            type: String, 
-            default: "Scheduled"
-          },
-
-
-          
+          },        
     },
 
     { timestamps: true }, 
