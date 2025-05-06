@@ -178,12 +178,12 @@ export const getStaffById = async (req, res) => {
    const staff = await StaffModel.findById(id);
   
    const documents = {
-     resumeCertificate: req.imageUrls?.resumeCertificate || staff.documents?.resumeCertificate || null,
-     highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate || staff.documents?.highestQualificationCertificate || null,
-     panCard: req.imageUrls?.panCard || staff.documents?.panCard || null,
-     aadharCard: req.imageUrls?.aadharCard || staff.documents?.aadharCard || null,
-   };
-    
+    resumeCertificate: req.imageUrls?.resumeCertificate ?? staff.documents?.resumeCertificate ?? null,
+    highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate ?? staff.documents?.highestQualificationCertificate ?? null,
+    panCard: req.imageUrls?.panCard ?? staff.documents?.panCard ?? null,
+    aadharCard: req.imageUrls?.aadharCard ?? staff.documents?.aadharCard ?? null,
+  };
+
     const updateStaff = await StaffModel.updateOne(
       { _id: id },
       {

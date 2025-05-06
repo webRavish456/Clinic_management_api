@@ -203,11 +203,11 @@ export const getAllDoctorById = async (req, res) => {
     const doctor = await DoctorModel.findById(id);
   
    const documents = {
-    resumeCertificate: req.imageUrls?.resumeCertificate ?? teacher.documents?.resumeCertificate ?? null,
-    highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate ?? teacher.documents?.highestQualificationCertificate ?? null,
-    panCard: req.imageUrls?.panCard ?? teacher.documents?.panCard ?? null,
-    aadharCard: req.imageUrls?.aadharCard ?? teacher.documents?.aadharCard ?? null,
-    licenseCertificate: req.imageUrls?.licenseCertificate ?? teacher.documents?.licenseCertificate ?? null,
+    resumeCertificate: req.imageUrls?.resumeCertificate ?? doctor.documents?.resumeCertificate ?? null,
+    highestQualificationCertificate: req.imageUrls?.highestQualificationCertificate ?? doctor.documents?.highestQualificationCertificate ?? null,
+    panCard: req.imageUrls?.panCard ?? doctor.documents?.panCard ?? null,
+    aadharCard: req.imageUrls?.aadharCard ?? doctor.documents?.aadharCard ?? null,
+    licenseCertificate: req.imageUrls?.licenseCertificate ?? doctor.documents?.licenseCertificate ?? null,
   };
 
     const updateDoctor = await DoctorModel.updateOne(
