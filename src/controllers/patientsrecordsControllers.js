@@ -13,7 +13,7 @@ export const postPatientsRecords = async (req, res) => {
       
       const { mobileNo, patientName, doctorNotes, nextFollowUp} = req.body;
 
-      if (! patientName || !doctorNotes || !nextFollowUp || !mobileNo  || !req.imageUrls?.image) {
+      if (! patientName || !doctorNotes  || !mobileNo  || !req.imageUrls?.image) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
 
