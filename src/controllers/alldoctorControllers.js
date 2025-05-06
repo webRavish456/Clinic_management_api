@@ -140,10 +140,6 @@ export const postAllDoctor = async (req, res) => {
     try {
       const doctor = await DoctorModel.find();
 
-      if (doctor.length === 0) {
-        return res.status(404).json({ status: "error", message: "Doctor Details not found" });
-      }
-
       res.status(200).json({ status: "success", data: doctor });
 
     } catch (error) {

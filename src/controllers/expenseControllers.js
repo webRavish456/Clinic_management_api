@@ -19,8 +19,6 @@ export const postExpense= async (req, res) => {
     try {
   
       const { expenseType, transactionId, payeeName, datePaid, amount, paymentMethod, status} = req.body;
-
-      console.log(req.body)
   
       if (! expenseType  || !payeeName|| !datePaid|| !amount|| !paymentMethod || !status )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
@@ -50,18 +48,15 @@ export const postExpense= async (req, res) => {
 
 
   export const getExpense = async (req, res) => {
+
     try {
       const  expense = await  ExpenseModel.find();
-  
-      if (expense.length === 0) {
-        return res.status(404).json({ status: "error", message: " Expense not found" });
-      }
-  
       res.status(200).json({ status: "success", data:  expense});
     } catch (error) {
       console.error("Error fetching  expense :", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
+
   };
 
 

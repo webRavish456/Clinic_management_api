@@ -114,13 +114,10 @@ export const postStaff = async (req, res) => {
 
   export const getStaff = async (req, res) => {
     try {
+
       const staff = await StaffModel.find();
-
-      if (staff.length === 0) {
-        return res.status(404).json({ status: "error", message: "Staff Details not found" });
-      }
-
       res.status(200).json({ status: "success", data: staff });
+      
     } catch (error) {
       console.error("Error fetching staff data:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });

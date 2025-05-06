@@ -51,10 +51,6 @@ export const postPatientsRecords = async (req, res) => {
       const patientsrecords = await PatientsRecordsModel.find().populate({  path: 'patient',
         select: 'admissionDate status'});
   
-      if (patientsrecords.length === 0) {
-        return res.status(404).json({ status: "error", message: " Patients records not found" });
-      }
-  
       res.status(200).json({ status: "success", data: patientsrecords });
     } catch (error) {
       console.error("Error fetching patientsrecords:", error);

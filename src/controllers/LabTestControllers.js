@@ -51,11 +51,7 @@ export const postLabTest= async (req, res) => {
     try {
       const labtest = await LabTestModel.find().populate({  path: 'patient',
         select: 'gender treatment'});
-  
-      if (labtest.length === 0) {
-        return res.status(404).json({ status: "error", message: "LabTest not found" });
-      }
-  
+   
       res.status(200).json({ status: "success", data: labtest});
     } catch (error) {
       console.error("Error fetching labtest :", error);

@@ -51,11 +51,7 @@ export const postDepartment= async (req, res) => {
   export const getDepartment = async (req, res) => {
     try {
       const department = await DepartmentModel.find();
-  
-      if (department.length === 0) {
-        return res.status(404).json({ status: "error", message: "Department not found" });
-      }
-  
+    
       res.status(200).json({ status: "success", data: department});
     } catch (error) {
       console.error("Error fetching department:", error);

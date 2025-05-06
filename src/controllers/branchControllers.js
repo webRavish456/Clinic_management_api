@@ -56,11 +56,7 @@ export const postBranch = async (req, res) => {
   export const getBranch = async (req, res) => {
     try {
       const branches = await BranchModel.find();
-  
-      if (branches.length === 0) {
-        return res.status(404).json({ status: "error", message: "Branch not found" });
-      }
-  
+ 
       res.status(200).json({ status: "success", data: branches });
     } catch (error) {
       console.error("Error fetching branch:", error);

@@ -49,18 +49,15 @@ export const postIncome= async (req, res) => {
 
 
   export const getIncome= async (req, res) => {
+   
     try {
       const  Income = await  IncomeModel.find();
-  
-      if ( Income.length === 0) {
-        return res.status(404).json({ status: "error", message: " Income not found" });
-      }
-  
-      res.status(200).json({ status: "success", data: Income});
+        res.status(200).json({ status: "success", data: Income});
     } catch (error) {
       console.error("Error fetching  income :", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
+    
   };
 
 

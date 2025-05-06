@@ -45,13 +45,10 @@ export const postAllLab= async (req, res) => {
 
 
   export const getAllLab = async (req, res) => {
+   
     try {
       const alllab = await AlllabModel.find();
-  
-      if (alllab.length === 0) {
-        return res.status(404).json({ status: "error", message: "AllLab not found" });
-      }
-  
+    
       res.status(200).json({ status: "success", data: alllab});
     } catch (error) {
       console.error("Error fetching alllab :", error);

@@ -43,11 +43,7 @@ export const postAllPatients = async (req, res) => {
   export const getAllPatients = async (req, res) => {
     try {
       const allpatients = await AllPatientsModel.find();
-  
-      if (allpatients.length === 0) {
-        return res.status(404).json({ status: "error", message: "All Patients not found" });
-      }
-  
+    
       res.status(200).json({ status: "success", data: allpatients });
     } catch (error) {
       console.error("Error fetching allpatients:", error);
