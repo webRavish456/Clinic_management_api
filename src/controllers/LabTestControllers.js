@@ -12,16 +12,11 @@ export const postLabTest= async (req, res) => {
   
     if (ContentType && ContentType.includes("multipart/form-data")) {
   
-      upload.none()(req, res, async (err) => {
-        if (err) {
-          return res.status(500).json({ status: "error", msg: "Error handling form data" });
-        }
-  
     try {
   
-      const { mobileNo, patientName, testName, sampleCollectedOn, labName, assignedLabTechnician} = req.body;
+      const { mobileNo, patientName, testName, labName, assignedLabTechnician} = req.body;
   
-      if ( ! patientName|| ! testName|| ! sampleCollectedOn|| ! labName|| ! assignedLabTechnician || !mobileNo  )  {
+      if ( ! patientName|| ! testName || ! labName|| ! assignedLabTechnician || !mobileNo || !req.imageUrls?.image )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
@@ -31,8 +26,9 @@ export const postLabTest= async (req, res) => {
         return res.status(400).json({ status: "error", message: "Patient not found" });
       }
 
+      const labResult = req.imageUrls?.image;
       
-      const newLabTest = await LabTestModel.create({ patientName, patient, testName,sampleCollectedOn,labName,assignedLabTechnician });
+      const newLabTest = await LabTestModel.create({ patientName, patient, testName,labName,assignedLabTechnician, mobileNo, labResult });
 
       res.status(200).json({ status: "success", message: "LabTest created successfully!" });
   
@@ -40,9 +36,7 @@ export const postLabTest= async (req, res) => {
       console.error("Error creating labtest:", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
-    }
-    
-  )}
+}
   
   };
 
@@ -85,13 +79,15 @@ export const getLabTestById = async (req, res) => {
   
     if (ContentType && ContentType.includes("multipart/form-data")) {
   
-      upload.none()(req, res, async (err) => {
-        if (err) {
-          return res.status(500).json({ status: "error", msg: "Error handling form data" });
-        }
-    try {
+        try {
       const { id } = req.params;
       const updateData = req.body; 
+
+         
+      if (req.imageUrls?.image) {
+        updateData.labResult = req.imageUrls.image;
+      }
+
       const updatedLabTest  =  await LabTestModel.updateOne({ _id: id }, { $set: updateData });
   
       if (!updatedLabTest ) {
@@ -104,7 +100,6 @@ export const getLabTestById = async (req, res) => {
       console.error("Error updating labtest :", error);
       res.status(500).json({ status: "error", message: "Internal server error" });
     }
-})
     }
   };
 

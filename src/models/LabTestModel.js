@@ -14,7 +14,12 @@ const labtestSchema = new mongoose.Schema(
           ref: "PatientsRecords",
           required: true
         },
-     
+
+        mobileNo: { 
+          type: Number, 
+          required: true 
+        },
+
         testName: { 
             type: String, 
             required: true 
@@ -25,9 +30,8 @@ const labtestSchema = new mongoose.Schema(
             required: true 
           },
   
-          sampleCollectedOn: { 
-            type: Date, 
-            required: true 
+          labResult: { 
+            type: String, 
           },
   
           assignedLabTechnician: { 
