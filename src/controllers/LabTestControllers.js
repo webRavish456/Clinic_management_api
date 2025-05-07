@@ -14,9 +14,9 @@ export const postLabTest= async (req, res) => {
   
     try {
   
-      const { mobileNo, patientName, testName, labName, assignedLabTechnician} = req.body;
+      const { mobileNo, patientName, testName, labName} = req.body;
   
-      if ( ! patientName|| ! testName || ! labName|| ! assignedLabTechnician || !mobileNo || !req.imageUrls?.image )  {
+      if ( ! patientName|| ! testName || ! labName || !mobileNo || !req.imageUrls?.image )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
@@ -28,7 +28,7 @@ export const postLabTest= async (req, res) => {
 
       const labResult = req.imageUrls?.image;
       
-      const newLabTest = await LabTestModel.create({ patientName, patient, testName,labName,assignedLabTechnician, mobileNo, labResult });
+      const newLabTest = await LabTestModel.create({ patientName, patient, testName,labName, mobileNo, labResult });
 
       res.status(200).json({ status: "success", message: "LabTest created successfully!" });
   

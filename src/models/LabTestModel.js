@@ -33,12 +33,7 @@ const labtestSchema = new mongoose.Schema(
           labResult: { 
             type: String, 
           },
-  
-          assignedLabTechnician: { 
-            type: String, 
-            required: true 
-          },
-  
+    
         status: { 
             type: String, 
             default: "Scheduled"
