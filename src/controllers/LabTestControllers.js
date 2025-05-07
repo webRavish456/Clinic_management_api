@@ -1,6 +1,6 @@
 import multer from "multer";
 import LabTestModel from "../models/LabTestModel.js";
-import AllPatientsModel from "../models/allpatientsModel.js";
+import PatientsRecordsModel from "../models/patientsrecordsModel.js";
 
 const storage = multer.memoryStorage();
 
@@ -20,15 +20,15 @@ export const postLabTest= async (req, res) => {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
   
-      const patient= await AllPatientsModel.findOne({mobileNo})
+      const patient= await PatientsRecordsModel.findOne({mobileNo})
 
-      if (patient.name !== patientName) {
+      if (patient.patientName !== patientName) {
         return res.status(400).json({ status: "error", message: "Patient not found" });
       }
 
       const labResult = req.imageUrls?.image;
       
-      const newLabTest = await LabTestModel.create({ patientName, patient, testName,labName, mobileNo, labResult });
+      const newLabTest = await LabTestModel.create({ patientName, patient:patient._id, testName,labName, mobileNo, labResult });
 
       res.status(200).json({ status: "success", message: "LabTest created successfully!" });
   
@@ -59,7 +59,7 @@ export const getLabTestById = async (req, res) => {
       const { id } = req.params; 
 
       const labtest = await LabTestModel.findById(id).populate({  path: 'patient',
-        select: 'gender treatment'}); 
+        select: 'doctorAssigned treatment'}); 
   
       if (!labtest ) {
         return res.status(404).json({ status: "error", message: "LabTest  not found" });
