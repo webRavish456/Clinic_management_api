@@ -44,7 +44,7 @@ export const postLabTest= async (req, res) => {
   export const getLabTest = async (req, res) => {
     try {
       const labtest = await LabTestModel.find().populate({  path: 'patient',
-        select: 'gender treatment'});
+        select: 'doctorAssigned treatment'});
    
       res.status(200).json({ status: "success", data: labtest});
     } catch (error) {
