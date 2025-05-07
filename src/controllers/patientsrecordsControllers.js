@@ -13,11 +13,11 @@ export const postPatientsRecords = async (req, res) => {
       
       const { mobileNo, patientName, doctorNotes, nextFollowUp} = req.body;
 
-      if (! patientName || !doctorNotes  || !mobileNo  || !req.imageUrls?.image) {
+      if (! patientName || !doctorNotes  || !mobileNo) {
         return res.status(400).json({ status: "error", message: "All fields are required" });
       }
 
-      console.log(req.body)
+
       const labReport = req.imageUrls?.image;
 
       const patient= await AllPatientsModel.findOne({mobileNo})
@@ -28,13 +28,12 @@ export const postPatientsRecords = async (req, res) => {
         }
     
       const appointment= await AppointmentModel.findOne({mobileNo:mobileNo})
-     
-   
+        
         if (appointment?.patientName !== patientName) {
           return res.status(400).json({ status: "error", message: "Please make an appointment first" });
         }
      
-      const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo, treatment:appointment.treatment, doctorAssigned: appointment.doctorName });
+      const newPatientsRecords = await PatientsRecordsModel.create({ patientName, doctorNotes,  nextFollowUp, labReport, patient, mobileNo, treatment:appointment.treatment, doctorAssigned: appointment.doctorAssigned });
 
       res.status(200).json({ status: "success", message: " Patients Records created successfully!" });
   
