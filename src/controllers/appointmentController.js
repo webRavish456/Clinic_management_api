@@ -1,6 +1,7 @@
 import multer from "multer";
 import AppointmentModel from "../models/appointmentModel.js";
 import PatientsRecordsModel from "../models/patientsrecordsModel.js";
+import AllPatientsModel from "../models/allpatientsModel.js";
 
 const storage = multer.memoryStorage();
 
@@ -23,6 +24,13 @@ export const postAppointment= async (req, res) => {
   
       if (! patientName || !doctorAssigned|| !treatment|| ! gender|| !appointmentDate || ! mobileNo|| !specialization || !department ||! emailId ||! appointmentStatus|| ! visitType   )  {
         return res.status(400).json({ status: "error", message: "All fields are required" });
+      }
+
+      const existingPatient= await AllPatientsModel.findOne({mobileNo:mobileNo})
+ 
+      if(!existingPatient)
+      {
+        return res.status(400).json({ status: "error", message: "Patient not found." });
       }
   
       const newAppointment = await AppointmentModel.create({ patientName, doctorAssigned, gender,treatment, appointmentDate, department, specialization, mobileNo, emailId, appointmentStatus, visitType });
