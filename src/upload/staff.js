@@ -50,21 +50,27 @@ const uploadStaff = (req, res, next) => {
 
     const files = req.files;
 
-    if (
-      files?.['documents.resumeCertificate']?.[0] &&
-      files?.['documents.highestQualificationCertificate']?.[0] &&
-      files?.['documents.panCard']?.[0] &&
-      files?.['documents.aadharCard']?.[0]
-    ) {
-      const imageUrls = {
-        resumeCertificate: files['documents.resumeCertificate'][0].path,
-        highestQualificationCertificate: files['documents.highestQualificationCertificate'][0].path,
-        panCard: files['documents.panCard'][0].path,
-        aadharCard: files['documents.aadharCard'][0].path,
-      };
+    const imageUrls = {};
+
+    if (files?.['documents.resumeCertificate']?.[0]) {
+      imageUrls.resumeCertificate = files['documents.resumeCertificate'][0].path;
+    }
     
-      req.imageUrls = imageUrls;
-    } 
+    if (files?.['documents.highestQualificationCertificate']?.[0]) {
+      imageUrls.highestQualificationCertificate = files['documents.highestQualificationCertificate'][0].path;
+    }
+    
+    if (files?.['documents.panCard']?.[0]) {
+      imageUrls.panCard = files['documents.panCard'][0].path;
+    }
+    
+    if (files?.['documents.aadharCard']?.[0]) {
+      imageUrls.aadharCard = files['documents.aadharCard'][0].path;
+    }
+    
+    if (Object.keys(imageUrls).length > 0) {
+      req.imageUrls = imageUrls; 
+    }
     
 
     next();

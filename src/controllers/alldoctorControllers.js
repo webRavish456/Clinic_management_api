@@ -261,6 +261,22 @@ export const deleteAllDoctor = async (req, res) => {
   try {
     const { id } = req.params;
 
+    const appointment = await DoctorModel.findById(id); 
+
+    const departmentData = await DepartmentModel.findOne({ departmentName: appointment.companyDetails.department });
+
+    if (departmentData) {
+
+        if (appointment.companyDetails.assignDepartmentHead.toLowerCase()==="yes") {
+
+              await DepartmentModel.updateOne(
+              { departmentName: appointment.companyDetails.department },
+              { $unset: { departmentHead: "" } }
+            );
+        
+       }
+      
+    }
     const deletedDoctor = await DoctorModel.deleteOne({ _id: id });
      
     if (deletedDoctor.deletedCount === 0) {

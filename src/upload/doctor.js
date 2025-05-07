@@ -51,6 +51,8 @@ const uploadDoctor = (req, res, next) => {
 
     const files = req.files;
 
+    const imageUrls = {};
+
     if (files?.['documents.resumeCertificate']?.[0]) {
       imageUrls.resumeCertificate = files['documents.resumeCertificate'][0].path;
     }
